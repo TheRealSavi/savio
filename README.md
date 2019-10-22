@@ -19,19 +19,23 @@ Documentation:
 
 ## Sliders:
 ---
+```
+require savio
+mySlider = Slider.new()
+``` 
   * **Values**
-    .x : returns sliders x position in the window
-    .y : returns sliders y position in the window
-    .size : returns the sliders size
-    .value : returns sliders value
+    * '''mySlider.x''' >> returns sliders x position in the window
+    * '''mySlider.y''' >> returns sliders y position in the window
+    * '''mySlider.size''' >> returns the sliders size
+    * '''mySlider.value''' >> returns sliders value
   * **Methods**
-    1. moveKnob(**x**)  
+    1. '''mySlider.moveKnob(**x**)'''  
       moves knob to an x position in the window, must be within x and x+length of slider  
-    2. setValue(**value**)  
+    2. '''mySlider.setValue(**value**)'''  
       sets the value of the slider, must be within min and max of the slider  
-    3. updateLabel()  
+    3. '''mySlider.updateLabel()'''  
       updates the label that shows the value of the slider. _is called automatically when slider value is updated_
-    4. build()  
+    4. '''mySlider.build()'''  
       builds the slider by creating all the ruby2d objects. _is called automatically when slider is created_
   * **Creating**
     * x : the x position of the slider in the window _default 0_
@@ -47,10 +51,10 @@ Documentation:
     * sliderColor : color of the slider line _default black_
     * knobColor : color of the sliders knob _default green_
   * **Example**
-    'require "savio"'
-    'mySlider = Slider.new()' >> Returns default Slider object
-    'mySlider = Slider.new(x: 100, y:50)' >> Returns default slider object but at 100,50
-    'mySlider = Slider.new(x:100,y:50,length:800,min: 0.0,max: 50.0,value: 14,size: 12,name: "Max Speed")' >> Returns a mostly customized slider obect
+    '''require "savio"'''   
+    '''mySlider = Slider.new()''' >> Returns default Slider object  
+    '''mySlider = Slider.new(x: 100, y:50)''' >> Returns default slider object but at 100,50  
+    '''mySlider = Slider.new(x:100,y:50,length:800,min: 0.0,max: 50.0,value: 14,size: 12,name: "Max Speed")''' >> Returns a mostly customized slider object  
 
   * **Preview**
     ![Image](preview.png "icon")
