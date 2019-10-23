@@ -3,9 +3,10 @@ require_relative 'Element/Slider.rb'
 require_relative 'Element/ButtonList.rb'
 
 set width: 800, height:800
-set title: "CircleVis", fullscreen:false, background: '#90b8d2'
+set title: "SavIO", fullscreen:false, background: 'black'
 
-mySlider = Slider.new(x: 100, y:100)
+mySlider = Slider.new(x:100,y:100)
+mySlider.setValue(68)
 
 myRadios = ButtonList.new(type: 'radio')
 myRadios.addOption(x:20, y: 150, name: "yes")
