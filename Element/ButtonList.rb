@@ -1,4 +1,5 @@
 class Option
+  attr_accessor :value
   attr_reader :x, :y, :size, :selected, :name
   def initialize(args = {})
     @name = args[:name] || "default"
@@ -10,7 +11,11 @@ class Option
     @baseColor = args[:baseColor] || 'white'
     @selectedColor = args[:selectedColor] || 'blue'
     @labelColor = args[:labelColor] || 'white'
-    @selected = false
+    @selected = args[:selected] || false
+    build()
+    if @selected == true
+      forceSelect()
+    end
   end
 
   def select()
@@ -26,6 +31,11 @@ class Option
   def deselect()
     @selectCircle.remove
     @selected = false
+  end
+
+  def forceSelect()
+      @selectCircle.add
+      @selected = true
   end
 
   def build()
@@ -70,7 +80,6 @@ class ButtonList
   def addOption(optionParams)
     newOption = Option.new(optionParams)
     @options[newOption.name] = newOption
-    newOption.build()
   end
 
   def select(option)
@@ -82,8 +91,8 @@ class ButtonList
       end
       option.select
     elsif @type == 'radio'
-      @selected.each do |i|
-        i.deselect
+      @options.each do |name, option|
+        option.deselect
       end
       @selected.clear
       @selected.push(option)
