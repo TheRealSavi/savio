@@ -1,16 +1,14 @@
 # SavIO
 
-## What is it?
-### SavIO is a **ruby2d** add-on that adds IO objects
+### What is it?
+##### SavIO is a **ruby2d** add-on that adds IO objects
 ---
 Objects:
   * Sliders - done
   * Buttons
-    1. Normal
-    2. Radio - done
-    3. Switch
-    4. Checkbox - done
-  * BetterLabels
+    * Normal
+    * Radio - done
+    * Checkbox - done
   * Color Picker
   * Text Input
 
