@@ -6,7 +6,7 @@ class Slider
     @@sliders
   end
 
-  def initialize(args)
+  def initialize(args = {})
     @@sliders.push(self)
 
     @x = args[:x]           || 0
@@ -17,10 +17,10 @@ class Slider
     @z = args[:z]           || 1
     @size = args[:size]     || 10
     @value = args[:value]   || @min
-    @name = args[:name]     || "label"
+    @name = args[:name]     || "Slider"
 
-    @labelColor  = args[:labelColor]  || 'black'
-    @sliderColor = args[:sliderColor] || 'black'
+    @labelColor  = args[:labelColor]  || 'white'
+    @sliderColor = args[:sliderColor] || 'gray'
     @knobColor   = args[:knobColor]   || 'green'
 
     build()
@@ -38,7 +38,7 @@ class Slider
       pos = @knob.x
       @value = ((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min
 
-      updateLabel()
+      @label.text = @value
     end
   end
 
@@ -54,18 +54,6 @@ class Slider
     end
   end
 
-  def updateLabel
-    @label.remove
-    @label = Text.new(
-      @value.to_s,
-      x: @x + @length + @size, y: @y - @size * 1.25,
-      size: @size * 2.5,
-      color: @labelColor,
-      z: @z+1
-    )
-    @label.add
-  end
-
   def build()
     @sliderLine = Line.new(
       x1: @x, y1: @y,
@@ -77,7 +65,7 @@ class Slider
 
     @knob = Circle.new(
       x: @x, y: @y,
-      radius: @size * 1.5,
+      radius: @size * 1.2,
       color: @knobColor,
       z: @z+1
     )
@@ -92,7 +80,7 @@ class Slider
 
     @nameLabel = Text.new(
       @name.to_s,
-      x: @x, y: @y - @size * 2.5 - @size,
+      x: @x, y: @y - @size * 3 - @size,
       size: @size * 2.5,
       color: @labelColor,
       z: @z+2
