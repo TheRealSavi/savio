@@ -1,3 +1,56 @@
+class Option
+  attr_reader :x, :y, :size, :selected, :name
+  def initialize(args = {})
+    @name = args[:name] || "default"
+    @value = args[:value] || 0
+    @x = args[:x] || 0
+    @y = args[:y] || 0
+    @z = args[:z] || 1
+    @size = args[:size] || 10
+    @baseColor = args[:baseColor] || 'white'
+    @selectedColor = args[:selectedColor] || 'blue'
+    @labelColor = args[:labelColor] || 'white'
+    @selected = false
+  end
+
+  def select()
+    if @selected == true
+      @selectCircle.remove
+      @selected = false
+    else
+      @selectCircle.add
+      @selected = true
+    end
+  end
+
+  def deselect()
+    @selectCircle.remove
+    @selected = false
+  end
+
+  def build()
+    @nameLabel = Text.new(
+      @name.to_s,
+      x: @x + @size * 2, y: @y - @size,
+      size: @size * 2,
+      color: @labelColor
+    )
+    @baseCircle = Circle.new(
+      x: @x, y: @y,
+      radius: @size,
+      color: @baseColor,
+      z: @z
+    )
+    @selectCircle = Circle.new(
+      x: @x, y: @y,
+      radius: @size * 0.8,
+      color: @selectedColor,
+      z: @z+1
+    )
+    @selectCircle.remove
+  end
+end
+
 class ButtonList
   attr_accessor :options, :selected
 
@@ -6,60 +59,7 @@ class ButtonList
     @@buttonLists
   end
 
-  class Option
-    attr_reader :x, :y, :size, :selected, :name
-    def initialize(args)
-      @name = args[:name] || "default"
-      @value = args[:value] || 0
-      @x = args[:x] || 0
-      @y = args[:y] || 0
-      @z = args[:z] || 1
-      @size = args[:size] || 10
-      @baseColor = args[:baseColor] || 'white'
-      @selectedColor = args[:selectedColor] || 'blue'
-      @labelColor = args[:labelColor] || 'black'
-      @selected = false
-    end
-
-    def select()
-      if @selected == true
-        @selectCircle.remove
-        @selected = false
-      else
-        @selectCircle.add
-        @selected = true
-      end
-    end
-
-    def deselect()
-      @selectCircle.remove
-      @selected = false
-    end
-
-    def build()
-      @nameLabel = Text.new(
-        @name.to_s,
-        x: @x + @size * 2, y: @y - @size,
-        size: @size * 2,
-        color: @labelColor
-      )
-      @baseCircle = Circle.new(
-        x: @x, y: @y,
-        radius: @size,
-        color: @baseColor,
-        z: @z
-      )
-      @selectCircle = Circle.new(
-        x: @x, y: @y,
-        radius: @size * 0.8,
-        color: @selectedColor,
-        z: @z+1
-      )
-      @selectCircle.remove
-    end
-  end
-
-  def initialize(args)
+  def initialize(args = {})
     @@buttonLists.push(self)
 
     @type = args[:type] || 'checkbox'
