@@ -1,5 +1,6 @@
 class Slider
-  attr_reader :x, :y, :size, :value
+  attr_accessor :enabled
+  attr_reader :x, :y, :length, :min, :max, :z, :size, :value, :displayName, :id, :shown
 
   @@sliders = []
   def self.sliders
@@ -9,22 +10,60 @@ class Slider
   def initialize(args = {})
     @@sliders.push(self)
 
-    @x = args[:x]           || 0
-    @y = args[:y]           || 0
-    @length = args[:length] || 100
-    @min = args[:min]       || 0
-    @max = args[:max]       || 100
-    @z = args[:z]           || 1
-    @size = args[:size]     || 10
-    @value = args[:value]   || @min
-    @name = args[:name]     || "Slider"
+    @x = args[:x]             || 0
+    @y = args[:y]             || 0
+    @length = args[:length]   || 100
+    @min = args[:min]         || 0
+    @max = args[:max]         || 100
+    @z = args[:z]             || 1
+    @size = args[:size]       || 10
+    @value = args[:value]     || @min
+    @enabled = args[:enabled] || true
+    @displayName = args[:displayName].to_s || "default"
+    @id = args[:id] || @displayName.to_s
 
     @labelColor  = args[:labelColor]  || 'white'
     @sliderColor = args[:sliderColor] || 'gray'
     @knobColor   = args[:knobColor]   || 'green'
 
     build()
-    setValue(@value)
+  end
+
+  def x=(x)
+    @x = x
+    rebuild()
+  end
+  def y=(y)
+    @y = y
+    rebuild()
+  end
+  def z=(z)
+    @z = z
+    rebuild()
+  end
+  def size=(size)
+    @size = size.abs
+    rebuild()
+  end
+  def displayName=(displayName)
+    @displayName = displayName
+    rebuild()
+  end
+  def length=(length)
+    @length = length.clamp(1, Window.width-@x)
+    rebuild()
+  end
+  def labelColor=(c)
+    @labelColor = c
+    rebuild()
+  end
+  def sliderColor=(c)
+    @sliderColor = c
+    rebuild()
+  end
+  def knobColor=(c)
+    @knobColor = c
+    rebuild()
   end
 
   def moveKnob(x)
@@ -54,7 +93,36 @@ class Slider
     end
   end
 
+  def remove()
+    if @shown == false
+      return
+    end
+    @sliderLine.remove
+    @knob.remove
+    @label.remove
+    @nameLabel.remove
+    @shown = false
+  end
+
+  def add()
+    if @shown == true
+      return
+    end
+    @sliderLine.add
+    @knob.add
+    @label.add
+    @nameLabel.add
+    @shown = true
+  end
+
+  def rebuild()
+    remove()
+    build()
+  end
+
   def build()
+    @shown = true
+
     @sliderLine = Line.new(
       x1: @x, y1: @y,
       x2: @x+@length, y2: @y,
@@ -79,12 +147,13 @@ class Slider
     )
 
     @nameLabel = Text.new(
-      @name.to_s,
+      @displayName.to_s,
       x: @x, y: @y - @size * 3 - @size,
       size: @size * 2.5,
       color: @labelColor,
       z: @z+2
     )
+    setValue(@value)
   end
 end
 
@@ -97,8 +166,10 @@ on :mouse do |event|
   end
   if @dragging == true
     Slider.sliders.each do |slider|
-      if event.y.between?(slider.y-slider.size,slider.y+slider.size)
-        slider.moveKnob(event.x)
+      if slider.shown && slider.enabled
+        if event.y.between?(slider.y-slider.size,slider.y+slider.size)
+          slider.moveKnob(event.x)
+        end
       end
     end
   end
