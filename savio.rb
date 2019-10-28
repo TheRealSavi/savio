@@ -11,11 +11,19 @@ label = Text.new(
   size: 40
 )
 
-mySlider = Slider.new(displayName: "gay slider", x:100,y:100)
+mySlider = Slider.new(
+  displayName: "gay slider",
+  x:100,y:100,
+  min: 0, max: 99,
+  length: 256
+)
+
 mySlider.setValue(68)
 
 myRadios = ButtonList.new(type: 'radio')
+
 myRadios.addOption(x:20, y: 150, displayName: "hide slider", id: "hide")
+
 myRadios.addOption(x:20, y: 200, displayName: "move left", id: "sl")
 myRadios.addOption(x:20, y: 250, displayName: "move right", id: "sr")
 myRadios.addOption(x:20, y: 300, displayName: "none", selected: true)
@@ -23,36 +31,39 @@ myRadios.addOption(x:20, y: 300, displayName: "none", selected: true)
 myButtons = ButtonList.new(type: 'checkbox')
 myButtons.addOption(x:300, y:200, displayName: "this", value: "Hello", selected: true)
 myButtons.addOption(x:300, y:250, displayName: "and this", value: "Hi")
-update do
 
+myButtons.change(optionID:"this", setting: "displayName", value: "goober")
+
+update do
   if mySlider.value == 55
-    myButtons.options["this"].select
+    mySlider.setValue(2)
   end
 
-  if myRadios.options["hide"].selected == true
+  if myRadios.selected.include?("hide")
     mySlider.remove
   else
     mySlider.add
   end
 
-  if myRadios.options["sl"].selected == true
+  if myRadios.selected.include?("sl")
     mySlider.length -= 1
   end
 
-  if myRadios.options["sr"].selected == true
+  if myRadios.selected.include?("sr")
     mySlider.length += 1
   end
 
-  if myButtons.options["and this"].selected == true
-    myButtons.options["and this"].displayName = "gay"
-    myButtons.options["and this"].y -= 1
+  if myButtons.selected.include?("and this")
+    myButtons.change(optionID:"and this", setting:"x",
+      value: myButtons.view(optionID:"and this", setting:"x")-1
+    )
   end
 
   mystring = ""
 
-  myButtons.options.each do |name, option|
-    if option.selected
-      mystring += option.value.to_s
+  myButtons.optionID.each do |id|
+    if myButtons.selected.include?(id)
+      mystring += myButtons.view(optionID:id, setting: "value").to_s
     end
   end
 
