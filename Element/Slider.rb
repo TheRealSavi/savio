@@ -75,7 +75,7 @@ class Slider
       from_max = @x + @length
       from_min = @x
       pos = @knob.x
-      @value = ((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min
+      @value = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
 
       @label.text = @value
     end
@@ -85,11 +85,13 @@ class Slider
     if value.between?(@min, @max)
       to_max = @x + @length
       to_min = @x
-      from_max = @max
-      from_min = @min
+      from_max = @max.to_f
+      from_min = @min.to_f
       pos = value
-      knobX = ((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min
-      moveKnob(knobX)
+      knobX = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
+      @value = value
+      @label.text = @value
+      @knob.x = knobX
     end
   end
 
@@ -153,7 +155,7 @@ class Slider
       color: @labelColor,
       z: @z+2
     )
-    setValue(@value)
+  setValue(@value)
   end
 end
 
