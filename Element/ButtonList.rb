@@ -1,5 +1,5 @@
 class ButtonList
-  attr_reader :options, :selected
+  attr_reader :selected, :optionID
 
   @@buttonLists = []
   def self.buttonLists
@@ -11,49 +11,71 @@ class ButtonList
 
     @type = args[:type] || 'checkbox'
     @options = {}
+    @optionID = []
     @selected = []
   end
 
   def addOption(optionParams)
     newOption = Option.new(optionParams)
     @options[newOption.id] = newOption
-    return newOption
+    @optionID.push(newOption.id)
+    return newOption.id
   end
 
-  def toggle(option)
-    if @type == 'checkbox'
-      if option.selected == true
-        deselect(option)
-      else
-        select(option)
+  def toggle(optionID)
+    if @options.has_key?(optionID)
+      if @type == 'checkbox'
+        if @options[optionID].selected == true
+          deselect(optionID)
+        else
+          select(optionID)
+        end
+      elsif @type == 'radio'
+        select(optionID)
       end
-    elsif @type == 'radio'
-      select(option)
     end
   end
 
-  def select(option)
-    if @type == 'checkbox'
-      @selected.push(option)
-      option.select
-    elsif @type == 'radio'
-      @options.each do |name, option|
-        option.deselect
+  def select(optionID)
+    if @options.has_key?(optionID)
+      if @type == 'checkbox'
+        @selected.push(optionID)
+        @options[optionID].select
+      elsif @type == 'radio'
+        @options.each do |id, option|
+          option.deselect
+        end
+        @selected.clear
+        @selected.push(optionID)
+        @options[optionID].select
       end
-      @selected.clear
-      @selected.push(option)
-      option.select
     end
   end
 
-  def deselect(option)
-    if @type == 'checkbox'
-      @selected.delete(option)
-      option.deselect
-    elsif @type == 'radio'
-      #Can not deselect a radio
+  def deselect(optionID)
+    if @options.has_key?(optionID)
+      if @type == 'checkbox'
+        @selected.delete(optionID)
+        @options[optionID].deselect
+      elsif @type == 'radio'
+        #Can not deselect a radio
+      end
     end
+  end
 
+  def touch(optionID)
+
+  end
+
+  def change(args = {})
+    if @options.has_key?(args[:optionID])
+      @options[args[:optionID]].send(args[:setting]+"=", args[:value])
+    end
+  end
+  def view(args = {})
+    if @options.has_key?(args[:optionID])
+      return @options[args[:optionID]].send(args[:setting])
+    end
   end
 
   class Option
@@ -116,6 +138,11 @@ class ButtonList
       rebuild()
     end
 
+    def rebuild()
+      remove()
+      build()
+    end
+
     def select()
       @selectCircle.add
       @selected = true
@@ -144,11 +171,6 @@ class ButtonList
       @baseCircle.add
       @selectCircle.add
       @shown = true
-    end
-
-    def rebuild()
-      remove()
-      build()
     end
 
     def build()
@@ -180,10 +202,15 @@ end
 on :mouse_down do |event|
   if event.button == :left
     ButtonList.buttonLists.each do |buttonList|
-      buttonList.options.each do |name, button|
-        if button.shown && button.enabled
-          if event.x.between?(button.x-button.size,button.x+button.size) && event.y.between?(button.y-button.size,button.y+button.size)
-            buttonList.toggle(button)
+      buttonList.optionID.each do |id|
+        meShown = buttonList.view(optionID: id, setting: "shown")
+        meEnabled = buttonList.view(optionID: id, setting: "enabled")
+        meX = buttonList.view(optionID: id, setting: "x")
+        meY = buttonList.view(optionID: id, setting: "y")
+        meSize = buttonList.view(optionID: id, setting: "size")
+        if meShown && meEnabled
+          if event.x.between?(meX-meSize,meX+meSize) && event.y.between?(meY-meSize,meY+meSize)
+            buttonList.toggle(id)
           end
         end
       end
