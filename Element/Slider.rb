@@ -22,8 +22,8 @@ class Slider
     @displayName = args[:displayName].to_s || "default"
     @id = args[:id] || @displayName.to_s
 
-    @labelColor  = args[:labelColor]  || 'white'
-    @sliderColor = args[:sliderColor] || 'gray'
+    @labelColor  = args[:labelColor]  || '#F5F5F5'
+    @sliderColor = args[:sliderColor] || '#757575'
     @knobColor   = args[:knobColor]   || '#5BB36A'
 
     build()
@@ -142,7 +142,7 @@ class Slider
 
     @label = Text.new(
       @value.to_s,
-      x: @x + @length + @size, y: @y - @size * 1.25,
+      x: @x + @length + @size, y: @y - @size * 1.75,
       size: @size * 2.5,
       color: @labelColor,
       z: @z+1

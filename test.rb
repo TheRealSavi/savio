@@ -1,5 +1,7 @@
 require_relative 'savio.rb'
 
+set background: '#607564'
+
 $view = Square.new(
   x:10,
   y:10,
@@ -32,7 +34,7 @@ $myValue = Slider.new(
   value: rand(0.0..1.0)
 )
 
-$mySettings = ButtonList.new(type: 'checkbox')
+$mySettings = ButtonList.new(type: 'radio')
 
 $mySettings.addOption(displayName: 'Loop Angle?', x: 450, y: 240, id: 'doLoop')
 $mySettings.addOption(displayName: 'Randomize?', x: 450, y: 280, id: 'doRandom')

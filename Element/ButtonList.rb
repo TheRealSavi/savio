@@ -91,9 +91,9 @@ class ButtonList
       @y = args[:y] || 0
       @z = args[:z] || 1
       @size = args[:size] || 10
-      @baseColor = args[:baseColor] || 'white'
-      @selectedColor = args[:selectedColor] || 'blue'
-      @labelColor = args[:labelColor] || 'white'
+      @baseColor = args[:baseColor] || '#F5F5F5'
+      @selectedColor = args[:selectedColor] || '#00B3EC'
+      @labelColor = args[:labelColor] || '#F5F5F5'
       @selected = args[:selected] || false
       @enabled = args[:enabled] || true
       @shown = args[:shown] || true
@@ -200,7 +200,7 @@ class ButtonList
 
       @nameLabel = Text.new(
         @displayName.to_s,
-        x: @x + @size * 2, y: @y - @size,
+        x: @x + @size * 2, y: @y - @size * 1.5,
         size: @size * 2,
         color: @labelColor
       )
