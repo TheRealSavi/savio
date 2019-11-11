@@ -64,7 +64,9 @@ class ButtonList
   end
 
   def touch(optionID)
-
+    if @options.has_key?(optionID)
+      return @options[optionID].touch
+    end
   end
 
   def change(args = {})
@@ -94,6 +96,7 @@ class ButtonList
       @labelColor = args[:labelColor] || 'white'
       @selected = args[:selected] || false
       @enabled = args[:enabled] || true
+      @shown = args[:shown] || true
       @id = args[:id] || @displayName
 
       build()
@@ -141,6 +144,25 @@ class ButtonList
     def rebuild()
       remove()
       build()
+    end
+
+    def touch()
+      myInfo = {
+        displayName: @displayName,
+        value: @value,
+        x: @x,
+        y: @y,
+        z: @z,
+        size: @size,
+        baseColor: @baseColor,
+        selectedColor: @selectedColor,
+        labelColor: @labelColor,
+        selected: @selected,
+        enabled: @enabled,
+        shown: @shown,
+        id: @id
+      }
+      return myInfo
     end
 
     def select()
@@ -203,13 +225,9 @@ on :mouse_down do |event|
   if event.button == :left
     ButtonList.buttonLists.each do |buttonList|
       buttonList.optionID.each do |id|
-        meShown = buttonList.view(optionID: id, setting: "shown")
-        meEnabled = buttonList.view(optionID: id, setting: "enabled")
-        meX = buttonList.view(optionID: id, setting: "x")
-        meY = buttonList.view(optionID: id, setting: "y")
-        meSize = buttonList.view(optionID: id, setting: "size")
-        if meShown && meEnabled
-          if event.x.between?(meX-meSize,meX+meSize) && event.y.between?(meY-meSize,meY+meSize)
+        button = buttonList.touch(id)
+        if button[:shown] && button[:enabled]
+          if event.x.between?(button[:x]-button[:size],button[:x]+button[:size]) && event.y.between?(button[:y]-button[:size],button[:y]+button[:size])
             buttonList.toggle(id)
           end
         end
