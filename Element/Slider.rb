@@ -24,7 +24,7 @@ class Slider
 
     @labelColor  = args[:labelColor]  || 'white'
     @sliderColor = args[:sliderColor] || 'gray'
-    @knobColor   = args[:knobColor]   || 'green'
+    @knobColor   = args[:knobColor]   || '#5BB36A'
 
     build()
   end
