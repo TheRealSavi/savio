@@ -9,14 +9,22 @@ class ButtonList
   def initialize(args = {})
     @@buttonLists.push(self)
 
-    @type = args[:type] || 'checkbox'
     @options = {}
     @optionID = []
     @selected = []
+
+    @type = args[:type] || 'checkbox'
+    if @type != 'checkbox' && @type != 'radio'
+      raise ArgumentError, 'ButtonList type ' + @type.to_s + ' invalid. Must be radio or checkbox'
+    end
   end
 
   def addOption(optionParams)
     newOption = Option.new(optionParams)
+    if @optionID.include?(newOption.id)
+      raise ArgumentError, 'ID ' + newOption.id.to_s + ' Already exists in given buttonList'
+      return false
+    end
     @options[newOption.id] = newOption
     @optionID.push(newOption.id)
     return newOption.id
@@ -33,6 +41,8 @@ class ButtonList
       elsif @type == 'radio'
         select(optionID)
       end
+    else
+      raise ArgumentError, ('could not find optionID ' + optionID.to_s + ' in given buttonList')
     end
   end
 
@@ -49,6 +59,8 @@ class ButtonList
         @selected.push(optionID)
         @options[optionID].select
       end
+    else
+      raise ArgumentError, ('could not find optionID ' + optionID.to_s + ' in given buttonList')
     end
   end
 
@@ -60,23 +72,22 @@ class ButtonList
       elsif @type == 'radio'
         #Can not deselect a radio
       end
+    else
+      raise ArgumentError, ('could not find optionID ' + optionID.to_s + ' in given buttonList')
     end
   end
 
   def touch(optionID)
     if @options.has_key?(optionID)
       return @options[optionID].touch
+    else
+      raise ArgumentError, ('could not find optionID ' + optionID.to_s + ' in given buttonList')
     end
   end
 
   def change(args = {})
     if @options.has_key?(args[:optionID])
       @options[args[:optionID]].send(args[:setting]+"=", args[:value])
-    end
-  end
-  def view(args = {})
-    if @options.has_key?(args[:optionID])
-      return @options[args[:optionID]].send(args[:setting])
     end
   end
 
