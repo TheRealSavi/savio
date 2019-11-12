@@ -96,7 +96,7 @@ class ButtonList
     attr_reader :x, :y, :z, :size, :selected, :displayName, :id, :shown
 
     def initialize(args = {})
-      @displayName = args[:displayName].to_s || "default"
+      @displayName = args[:displayName] || "default"
       @value = args[:value] || 0
       @x = args[:x] || 0
       @y = args[:y] || 0
@@ -230,19 +230,4 @@ class ButtonList
     end
   end
 
-end
-
-on :mouse_down do |event|
-  if event.button == :left
-    ButtonList.buttonLists.each do |buttonList|
-      buttonList.optionID.each do |id|
-        button = buttonList.touch(id)
-        if button[:shown] && button[:enabled]
-          if event.x.between?(button[:x]-button[:size],button[:x]+button[:size]) && event.y.between?(button[:y]-button[:size],button[:y]+button[:size])
-            buttonList.toggle(id)
-          end
-        end
-      end
-    end
-  end
 end
