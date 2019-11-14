@@ -17,8 +17,9 @@ class Slider
     @max = args[:max]         || 100
     @z = args[:z]             || 1
     @size = args[:size]       || 10
-    @value = args[:value]     || @min
+    @value = args[:value]     || rand(@min..@max)
     @enabled = args[:enabled] || true
+    @showValue = args[:showValue] || true
     @displayName = args[:displayName] || "default"
     @id = args[:id] || @displayName.to_s
 
@@ -65,6 +66,10 @@ class Slider
     @knobColor = c
     rebuild()
   end
+  def showValue=(state)
+    @showValue = state
+    rebuild()
+  end
 
   def moveKnob(x)
     if x.between?(@x, @x+@length)
@@ -76,8 +81,9 @@ class Slider
       from_min = @x
       pos = @knob.x
       @value = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
-
-      @label.text = @value
+      if @showValue == true
+        @label.text = @value
+      end
     end
   end
 
@@ -90,7 +96,9 @@ class Slider
       pos = value
       knobX = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
       @value = value
-      @label.text = @value
+      if @showValue == true
+        @label.text = @value
+      end
       @knob.x = knobX
     end
   end
@@ -156,5 +164,9 @@ class Slider
       z: @z+2
     )
   setValue(@value)
+
+  if @showValue == false
+    @label.remove
+  end
   end
 end
