@@ -13,13 +13,15 @@ $label = Text.new(
 )
 
 $myAngle = Slider.new(
+  displayName: "Angle",
   x:10, y:430,
-  min:0,
-  max:360,
+  min:0.0,
+  max:360.0,
   length:500,
-  value: rand(0..360)
+  value: rand(0.0..360.0)
 )
 $mySaturation = Slider.new(
+  displayName: "Saturation",
   x:450, y:80,
   min:0.0,
   max:1.0,
@@ -27,14 +29,14 @@ $mySaturation = Slider.new(
   value: rand(0.0..1.0)
 )
 $myValue = Slider.new(
+  displayName: "Value",
   x:450, y:120,
   min:0.0,
   max:1.0,
   length:100,
-  value: rand(0.0..1.0)
 )
 
-$mySettings = ButtonList.new(type: 'radio')
+$mySettings = ButtonList.new(type: 'checkbox')
 
 $mySettings.addOption(displayName: 'Loop Angle?', x: 450, y: 240, id: 'doLoop')
 $mySettings.addOption(displayName: 'Randomize?', x: 450, y: 280, id: 'doRandom')
@@ -51,11 +53,11 @@ end
 
 update do
   if $mySettings.selected.include?('doLoop')
-    $myAngle.setValue(($myAngle.value + 1 ) % 360)
+    $myAngle.setValue(($myAngle.value + 0.25 ) % 360)
   end
 
   if $mySettings.selected.include?('doRandom')
-    $myAngle.setValue(rand(0..360))
+    $myAngle.setValue(rand(0.0..360.0))
     $mySaturation.setValue(rand(0.0..1.0))
     $myValue.setValue(rand(0.0..1.0))
   end
