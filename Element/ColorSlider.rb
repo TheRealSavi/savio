@@ -9,7 +9,7 @@ class ColorSlider
   def initialize(args = {})
     @@sliders.push(self)
 
-    @size = args[:size] || 50
+    @size = args[:size] || 80
     @x = args[:x] || 100
     @y = args[:y] || 100
     @z = args[:z] || 1
