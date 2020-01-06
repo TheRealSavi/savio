@@ -19,6 +19,7 @@ on :mouse do |event|
   if event.button == :left && event.type == :down
     @dragging = true
   end
+
   if event.button == :left && event.type == :up
     @dragging = false
     Slider.sliders.each do |slider|
@@ -27,6 +28,7 @@ on :mouse do |event|
       end
     end
   end
+  
   if @dragging == true
     Slider.sliders.each do |slider|
       if slider.draggingEnabled
