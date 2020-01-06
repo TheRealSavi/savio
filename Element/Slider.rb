@@ -1,6 +1,6 @@
-class Slider
-  attr_accessor :enabled
-  attr_reader :x, :y, :length, :min, :max, :z, :size, :value, :displayName, :id, :shown
+class Slider < IORenderable
+  attr_accessor :enabled, :allowDrag, :draggingEnabled
+  attr_reader :length, :min, :max, :size, :value
 
   @@sliders = []
   def self.sliders
@@ -9,19 +9,14 @@ class Slider
 
   def initialize(args = {})
     @@sliders.push(self)
+    super(args)
 
-    @x = args[:x]             || 0
-    @y = args[:y]             || 0
     @length = args[:length]   || 100
     @min = args[:min]         || 0
     @max = args[:max]         || 100
-    @z = args[:z]             || 1
-    @size = args[:size]       || 10
+
     @value = args[:value]     || rand(@min..@max)
-    @enabled = args[:enabled] || true
     @showValue = args[:showValue] || true
-    @displayName = args[:displayName] || "default"
-    @id = args[:id] || @displayName.to_s
 
     @labelColor  = args[:labelColor]  || '#F5F5F5'
     @sliderColor = args[:sliderColor] || '#757575'
@@ -30,28 +25,12 @@ class Slider
     build()
   end
 
-  def x=(x)
-    @x = x
-    rebuild()
-  end
-  def y=(y)
-    @y = y
-    rebuild()
-  end
-  def z=(z)
-    @z = z
-    rebuild()
-  end
-  def size=(size)
-    @size = size.abs
-    rebuild()
-  end
-  def displayName=(displayName)
-    @displayName = displayName
-    rebuild()
-  end
   def length=(length)
     @length = length.clamp(1, Window.width-@x)
+    rebuild()
+  end
+  def showValue=(state)
+    @showValue = state
     rebuild()
   end
   def labelColor=(c)
@@ -64,10 +43,6 @@ class Slider
   end
   def knobColor=(c)
     @knobColor = c
-    rebuild()
-  end
-  def showValue=(state)
-    @showValue = state
     rebuild()
   end
 
@@ -104,30 +79,19 @@ class Slider
   end
 
   def remove()
-    if @shown == false
-      return
-    end
+    super()
     @sliderLine.remove
     @knob.remove
     @label.remove
     @nameLabel.remove
-    @shown = false
   end
 
   def add()
-    if @shown == true
-      return
-    end
+    super()
     @sliderLine.add
     @knob.add
     @label.add
     @nameLabel.add
-    @shown = true
-  end
-
-  def rebuild()
-    remove()
-    build()
   end
 
   def build()
@@ -163,10 +127,11 @@ class Slider
       color: @labelColor,
       z: @z+2
     )
-  setValue(@value)
 
-  if @showValue == false
-    @label.remove
-  end
+    setValue(@value)
+
+    if @showValue == false
+      @label.remove
+    end
   end
 end

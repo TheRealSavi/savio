@@ -21,14 +21,79 @@ on :mouse do |event|
   end
   if event.button == :left && event.type == :up
     @dragging = false
+    Slider.sliders.each do |slider|
+      if slider.draggingEnabled
+        slider.endDrag()
+      end
+    end
   end
   if @dragging == true
     Slider.sliders.each do |slider|
-      if slider.shown && slider.enabled
+      if slider.draggingEnabled
         if event.y.between?(slider.y-slider.size,slider.y+slider.size)
-          slider.moveKnob(event.x)
+          if event.x.between?(slider.x,slider.x+slider.length)
+            slider.allowDrag = true
+          end
+        end
+        if slider.allowDrag
+          slider.drag(event.x, event.y)
+        end
+      else
+        if slider.shown && slider.enabled
+          if event.y.between?(slider.y-slider.size,slider.y+slider.size)
+            slider.moveKnob(event.x)
+          end
         end
       end
+    end
+  end
+end
+
+#Inputbox Handler
+on :mouse do |event|
+  if event.button == :left && event.type == :down
+    @dragging = true
+  end
+
+  if event.button == :left && event.type == :up
+    @dragging = false
+    InputBox.inputBoxs.each do |inputBox|
+      if inputBox.draggingEnabled
+        inputBox.endDrag()
+      end
+    end
+  end
+
+  if @dragging == true
+    InputBox.inputBoxs.each do |inputBox|
+      if inputBox.draggingEnabled
+        if event.y.between?(inputBox.y,inputBox.y+inputBox.height)
+          if event.x.between?(inputBox.x,inputBox.x+inputBox.length)
+            inputBox.allowDrag = true
+          end
+        end
+        if inputBox.allowDrag
+          inputBox.drag(event.x, event.y)
+        end
+      else
+        if inputBox.shown && inputBox.enabled
+          if event.y.between?(inputBox.y,inputBox.y+inputBox.height)
+            if event.x.between?(inputBox.x,inputBox.x+inputBox.length)
+              inputBox.select
+            end
+          else
+            inputBox.deselect
+          end
+        end
+      end
+    end
+  end
+end
+
+on :key_down do |event|
+  InputBox.inputBoxs.each do |inputBox|
+    if inputBox.selected
+      inputBox.addKey(event.key)
     end
   end
 end
@@ -75,5 +140,3 @@ on :mouse do |event|
     end
   end
 end
-
-#Animation Handler

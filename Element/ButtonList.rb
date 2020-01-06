@@ -14,9 +14,12 @@ class ButtonList
     @selected = []
 
     @type = args[:type] || 'checkbox'
+    @duplicateOnDrag = args[:duplicateOnDrag] || false
+
     if @type != 'checkbox' && @type != 'radio'
       raise ArgumentError, 'ButtonList type ' + @type.to_s + ' invalid. Must be radio or checkbox'
     end
+
   end
 
   def addOption(optionParams)
@@ -91,24 +94,20 @@ class ButtonList
     end
   end
 
-  class Option
-    attr_accessor :value, :enabled
-    attr_reader :x, :y, :z, :size, :selected, :displayName, :id, :shown
+  class Option < IORenderable
+    attr_accessor :value
+    attr_reader :selected
 
     def initialize(args = {})
-      @displayName = args[:displayName] || "default"
+      super(args)
+
       @value = args[:value] || 0
-      @x = args[:x] || 0
-      @y = args[:y] || 0
-      @z = args[:z] || 1
-      @size = args[:size] || 10
+
       @baseColor = args[:baseColor] || '#F5F5F5'
       @selectedColor = args[:selectedColor] || '#00B3EC'
       @labelColor = args[:labelColor] || '#F5F5F5'
+
       @selected = args[:selected] || false
-      @enabled = args[:enabled] || true
-      @shown = args[:shown] || true
-      @id = args[:id] || @displayName
 
       build()
 
@@ -119,22 +118,6 @@ class ButtonList
       end
     end
 
-    def x=(x)
-      @x = x
-      rebuild()
-    end
-    def y=(y)
-      @y = y
-      rebuild()
-    end
-    def z=(z)
-      @z = z
-      rebuild()
-    end
-    def size=(size)
-      @size = size.abs
-      rebuild()
-    end
     def displayName=(displayName)
       @displayName = displayName
       rebuild()
@@ -150,11 +133,6 @@ class ButtonList
     def labelColor=(c)
       @labelColor = c
       rebuild()
-    end
-
-    def rebuild()
-      remove()
-      build()
     end
 
     def touch()
@@ -187,23 +165,15 @@ class ButtonList
     end
 
     def remove()
-      if @shown == false
-        return
-      end
       @nameLabel.remove
       @baseCircle.remove
       @selectCircle.remove
-      @shown = false
     end
 
     def add()
-      if @shown == true
-        return
-      end
       @nameLabel.add
       @baseCircle.add
       @selectCircle.add
-      @shown = true
     end
 
     def build()
