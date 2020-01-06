@@ -1,4 +1,6 @@
 require 'ruby2d'
+require_relative 'Element/IORenderable.rb'
+require_relative 'Element/InputBox.rb'
 require_relative 'Element/Slider.rb'
 require_relative 'Element/ButtonList.rb'
 require_relative 'Element/hsv2rgb.rb'
