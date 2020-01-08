@@ -1,5 +1,4 @@
 class Slider < IORenderable
-  attr_accessor :enabled, :allowDrag, :draggingEnabled
   attr_reader :length, :min, :max, :size, :value
 
   @@sliders = []

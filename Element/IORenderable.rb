@@ -8,9 +8,9 @@ class IORenderable
     @z = args[:z]             || 1
     @size = args[:size]       || 10
     @enabled = args[:enabled] || true
-    @id = args[:id] || @displayName.to_s
 
     @displayName = args[:displayName] || "default"
+    @id = args[:id] || @displayName.to_s
 
     @draggingEnabled = args[:draggingEnabled] || false
     @dragType = args[:dragType] || "move"
