@@ -11,7 +11,8 @@ attr_reader :selected, :value, :length, :height
     super(args)
 
     @selected = args[:selected] || false
-    @value = @displayName
+    @value = args[:value] || @displayName
+    @displayName = @value
     @length = @size * 10
     @height = @size * 1.2
 
@@ -33,16 +34,18 @@ attr_reader :selected, :value, :length, :height
   def addKey(key)
     if key == "space"
       @value += + " "
+      updateDisplay()
     elsif key == "return"
-      @selected = false
+      deselect()
     elsif key == "backspace"
       @value = @value[0...-1]
+      updateDisplay()
     elsif key.chars.count == 1
       @value += key
+      updateDisplay()
     else
       puts "unknown key : " + key.to_s
     end
-    updateDisplay()
   end
 
   def updateDisplay()
