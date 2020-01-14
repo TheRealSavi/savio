@@ -1,5 +1,5 @@
 class Button < IORenderable
-  attr_accessor :value
+  attr_accessor :value, :enforceManager
   attr_reader :selected, :buttonManager
 
   @@buttons = []
@@ -22,6 +22,8 @@ class Button < IORenderable
 
     @buttonManager = args[:buttonManager] || nil
 
+    @enforceManager = args[:enforceManager] || true
+
     build()
 
     if @buttonManager == nil
@@ -31,6 +33,9 @@ class Button < IORenderable
         deselect()
       end
     else
+      if @buttonManager.class.name != 'ButtonManager'
+        raise ArgumentError, 'Given object ' + @buttonManager.to_s + ' is not a ButtonManager. Must be of type ButtonManager'
+      end
       @buttonManager.addButton(self)
 
       if @selected
@@ -56,6 +61,9 @@ class Button < IORenderable
 
   def buttonManager=(newManager)
     if @buttonManager != nil
+      if newManager.class.name != 'ButtonManager'
+        raise ArgumentError, 'Given object ' + newManager.to_s + ' is not a ButtonManager. Must be of type ButtonManager'
+      end
       @buttonManager.removeButton(self, false)
     end
 
@@ -69,14 +77,22 @@ class Button < IORenderable
     end
   end
 
-  def select()
-    @selectCircle.add
-    @selected = true
+  def select(enforce = @enforceManager)
+    if enforce == true && @buttonManager != nil
+      @buttonManager.select(self)
+    else
+      @selectCircle.add
+      @selected = true
+    end
   end
 
-  def deselect()
-    @selectCircle.remove
-    @selected = false
+  def deselect(enforce = @enforceManager)
+    if enforce == true && @buttonManager != nil
+      @buttonManager.deselect(self)
+    else
+      @selectCircle.remove
+      @selected = false
+    end
   end
 
   def toggle()
@@ -99,6 +115,11 @@ class Button < IORenderable
     @nameLabel.add
     @baseCircle.add
     @selectCircle.add
+    if @selected
+      select()
+    else
+      deselect()
+    end
   end
 
   def build()
