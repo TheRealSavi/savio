@@ -1,5 +1,5 @@
 # | *Sav***IO**
-
+![Screenshot](https://raw.githubusercontent.com/TheRealSavi/savi-syntax/master/screenshots/ruby1.png)
 ## What is it?
 
 SavIO is an input/output library created to be used with **Ruby2D**. It adds multiple ways for the user to interact with your application, including :
@@ -137,7 +137,7 @@ all SavIO object's parameters are optional, if it is not defined then it will us
     end
 
 # | ButtonManager:
-Now I'm sure after reading how a **button** works you're saying, "What in the hell is a **manager**?" 
+Now I'm sure after reading how a **button** works you're saying, "What in the hell is a **manager**?"
 
 ## Let me explain, it's **very simple**.
 A **ButtonManager** is a simple and easy way to **manage a group of multiple buttons**.  More specifically, it **controls** the state of **all the buttons** in its group **depending on** the state of **all the other buttons** in its group.

@@ -34,7 +34,7 @@ class Sidebar
     )
 
     @elements[:templateInput] = InputBox.new(
-      x: 830, y: 180, size: 30,
+      x: 830, y: 180, size: 20,
       activeColor: 'purple',
       draggingEnabled: true, dragType: "duplicate"
     )
