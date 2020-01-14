@@ -95,11 +95,11 @@ class Button < IORenderable
     end
   end
 
-  def toggle()
+  def toggle(enforce = @enforceManager)
     if @selected
-      deselect()
+      deselect(enforce)
     else
-      select()
+      select(enforce)
     end
   end
 
