@@ -29,17 +29,19 @@ class ButtonManager
   def addButton(button)
     button.deselect
     @buttons.push(button)
-    if !button.buttonManager == self
+    if button.buttonManager != self
       button.buttonManager = self
     end
   end
 
-  def removeButton(button)
+  def removeButton(button, overwrite = true)
     @buttons.delete(button)
     if @selected.include?(button)
       @selected.delete(button)
     end
-    button.buttonManager = nil
+    if overwrite == true
+      button.buttonManager = nil
+    end
   end
 
   def toggle(button)

@@ -56,13 +56,13 @@ class Button < IORenderable
 
   def buttonManager=(newManager)
     if @buttonManager != nil
-      @buttonManager.removeButton(self)
+      @buttonManager.removeButton(self, false)
     end
 
     if newManager != nil
       @buttonManager = newManager
-      if !@buttonManager.buttons.include?(self)
-        @buttonManager.addButton(button)
+      if @buttonManager.buttons.include?(self) != true
+        @buttonManager.addButton(self)
       end
     else
       @buttonManager = nil
