@@ -15,7 +15,7 @@ class ButtonManager
     @type = args[:type] || 'radio'
 
     if @type != 'checkbox' && @type != 'radio'
-      raise ArgumentError, 'ButtonList type ' + @type.to_s + ' invalid. Must be radio or checkbox'
+      raise ArgumentError, 'ButtonManager type ' + @type.to_s + ' is invalid. Must be radio or checkbox'
     end
 
   end
@@ -23,11 +23,16 @@ class ButtonManager
   def type=(type)
     if type == 'radio' || type == "checkbox"
       @type = type
+    else
+      raise ArgumentError, 'ButtonManager type ' + type.to_s + ' is invalid. Must be radio or checkbox'
     end
   end
 
   def addButton(button)
-    button.deselect
+    if button.class.name != 'Button'
+      raise ArgumentError, 'Given object ' + button.to_s + ' is not a Button. Must be of type Button'
+    end
+    button.deselect(false)
     @buttons.push(button)
     if button.buttonManager != self
       button.buttonManager = self
@@ -35,12 +40,16 @@ class ButtonManager
   end
 
   def removeButton(button, overwrite = true)
-    @buttons.delete(button)
-    if @selected.include?(button)
-      @selected.delete(button)
-    end
-    if overwrite == true
-      button.buttonManager = nil
+    if @buttons.include?(button)
+      @buttons.delete(button)
+      if @selected.include?(button)
+        @selected.delete(button)
+      end
+      if overwrite == true
+        button.buttonManager = nil
+      end
+    else
+      raise ArgumentError, ('Could not find button ' + button.to_s + ' in buttonManager')
     end
   end
 
@@ -56,7 +65,7 @@ class ButtonManager
         select(button)
       end
     else
-      raise ArgumentError, ('could not find button ' + button.to_s + ' in buttonManager')
+      raise ArgumentError, ('Could not find button ' + button.to_s + ' in buttonManager')
     end
   end
 
@@ -64,17 +73,17 @@ class ButtonManager
     if @buttons.include?(button)
       if @type == 'checkbox'
         @selected.push(button)
-        button.select
+        button.select(false)
       elsif @type == 'radio'
         @buttons.each do |i|
-          i.deselect
+          i.deselect(false)
         end
         @selected.clear
         @selected.push(button)
-        button.select
+        button.select(false)
       end
     else
-      raise ArgumentError, ('could not find button ' + button.to_s + ' in buttonManager')
+      raise ArgumentError, ('Could not find button ' + button.to_s + ' in buttonManager')
     end
   end
 
@@ -82,12 +91,13 @@ class ButtonManager
     if @buttons.include?(button)
       if @type == 'checkbox'
         @selected.delete(button)
-        button.deselect
+        button.deselect(false)
       elsif @type == 'radio'
-        #Can not deselect a radio
+        @selected.delete(button)
+        button.deselect(false)
       end
     else
-      raise ArgumentError, ('could not find button ' + button.to_s + ' in buttonManager')
+      raise ArgumentError, ('Could not find button ' + button.to_s + ' in buttonManager')
     end
   end
 
