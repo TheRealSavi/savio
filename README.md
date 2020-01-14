@@ -1,5 +1,5 @@
 # | *Sav***IO**
-![Screenshot](https://raw.githubusercontent.com/TheRealSavi/savi-syntax/master/screenshots/ruby1.png)
+![Screenshot](https://github.com/TheRealSavi/savio/blob/master/preview.png)
 ## What is it?
 
 SavIO is an input/output library created to be used with **Ruby2D**. It adds multiple ways for the user to interact with your application, including :
