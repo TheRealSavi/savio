@@ -1,4 +1,46 @@
 require 'ruby2d'
+
+class Savio
+
+  def self.listening
+    @@listening
+  end
+
+  @@elements = []
+  def self.elements
+    @@elements
+  end
+
+  def self.addElement(element)
+    @@elements.push(element)
+  end
+
+  def self.removeElement(element)
+    @@elements.delete(element)
+  end
+  def self.listen
+    @@listening = true
+  end
+
+  def self.stop
+    @@listening = false
+  end
+
+  def self.hide
+    @@elements.each do |e|
+      e.remove
+    end
+  end
+
+  def self.unhide
+    @@elements.each do |e|
+      e.add
+    end
+  end
+end
+
+Savio.listen
+
 require_relative 'Element/IORenderable.rb'
 require_relative 'Element/InputBox.rb'
 require_relative 'Element/Slider.rb'
