@@ -34,7 +34,7 @@ class Sidebar
     )
 
     @elements[:templateInput] = InputBox.new(
-      x: 830, y: 180, size: 20,
+      x: 830, y: 180, size: 30,
       activeColor: 'purple',
       draggingEnabled: true, dragType: "duplicate"
     )
@@ -48,7 +48,7 @@ class Sidebar
       x2: 1100, y2: 420
     )
 
-    @elements[:lineText] = Text.new("ButtonList's : ",
+    @elements[:lineText] = Text.new("buttonManager's : ",
       x: 810, y: 430
     )
   end

@@ -44,6 +44,14 @@ attr_reader :selected, :value, :length, :height
     @activeColor = color
     rebuild()
   end
+  def length=(length)
+    @length = length
+    rebuild()
+  end
+  def height=(height)
+    @height = height
+    rebuild()
+  end
 
   def addKey(key)
     if key == "space"
@@ -101,6 +109,6 @@ attr_reader :selected, :value, :length, :height
     @shown = true
 
     @display = Text.new(@value,x: @x,y: @y,z: @z + 1, size: @size)
-    @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @width, color: @color)
+    @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @length, color: @color)
   end
 end
