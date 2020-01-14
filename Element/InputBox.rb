@@ -11,10 +11,15 @@ attr_reader :selected, :value, :length, :height
     super(args)
 
     @selected = args[:selected] || false
+
     @value = args[:value] || @displayName
     @displayName = @value
-    @length = @size * 10
-    @height = @size * 1.2
+
+    @length = args[:length] || @size * 10
+    @height = args[:height] || @size * 1.2
+
+    @color = args[:color] || 'gray'
+    @activeColor = args[:activeColor] || 'green'
 
     build()
   end
@@ -31,6 +36,15 @@ attr_reader :selected, :value, :length, :height
     @container.add
   end
 
+  def color=(color)
+    @color = color
+    rebuild()
+  end
+  def activeColor=(color)
+    @activeColor = color
+    rebuild()
+  end
+
   def addKey(key)
     if key == "space"
       @value += + " "
@@ -44,7 +58,8 @@ attr_reader :selected, :value, :length, :height
       @value += key
       updateDisplay()
     else
-      puts "unknown key : " + key.to_s
+      puts "SAVIO : I am a work in progress, and the key you pressed couldnt be handled"
+      puts "SAVIO : Unknown key : " + key.to_s
     end
   end
 
@@ -60,7 +75,7 @@ attr_reader :selected, :value, :length, :height
     end
 
     @display.text = @value + "|"
-    @container.color = 'green'
+    @container.color = @activeColor
   end
 
   def deselect()
@@ -71,7 +86,7 @@ attr_reader :selected, :value, :length, :height
     end
 
     @display.text = @value
-    @container.color = 'gray'
+    @container.color = @color
   end
 
   def toggle()
@@ -84,7 +99,8 @@ attr_reader :selected, :value, :length, :height
 
   def build()
     @shown = true
+
     @display = Text.new(@value,x: @x,y: @y,z: @z + 1, size: @size)
-    @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @width, color: 'gray')
+    @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @width, color: @color)
   end
 end
