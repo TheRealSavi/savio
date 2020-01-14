@@ -1,126 +1,223 @@
-Slider      
+# | *Sav***IO**
 
-Constructor Args :      
-{x: int, y: int, length: int, min: int, max: int, z: int, size: int, value: int, enabled:bool, displayName: string, id: string, labelColor: color, sliderColor: color, knobColor: color}      
+## What is it?
 
-Modifiable variables :      
-.enabled = bool      
-.x = int      
-.y = bool      
-.z = bool      
-.size = int      
-.displayName = string      
-.length = int (between 1 and the edge from x)      
-.labelColor = Ruby2D.Color Object      
-.sliderColor = Ruby2D.Color Object      
-.knobColor = Ruby2D.Color Object      
+SavIO is an input/output library created to be used with **Ruby2D**. It adds multiple ways for the user to interact with your application, including :
 
-Returnable variables :      
-.enabled > bool      
-.x > int      
-.y > int      
-.length > int      
-.min > int      
-.max > int      
-.z > int      
-.size > int      
-.value > int      
-.displayName > string      
-.id > string      
-.shown > bool      
+ - Sliders
+ - Buttons
+ - Text Input
+ - Color Picker (Work In Progress)
 
-Methods :      
 
-.moveKnob(int)      
-Moves knob the x position in the window      
+## How do they work?
 
-.setValue(int)      
-Sets the sliders value from min to max      
 
-.remove()      
-Hides the slider      
+ Good question! Part of the goal when developing SavIO was to make it as **intuitive** and **simple** as possible, while also being highly **versatile**, **powerful**, and **customizable**.
 
-.add()      
-Shows the slider      
+# | ALL OBJECTS
+#### All SavIO objects inherit these basic properties.
 
-.rebuild()      
-Rebuilds the slider      
+#### You can access an array of all SavIO Objects by using Savio.elements
+##### Example:
 
-.build()      
-Initializes slider objects      
+    Savio.elements.each do |element|
+	    element.x += 1 #Moves all elements over by 1 pixel
+    end
 
------------      
+##### SavIO Commands:
+    Savio.hide         #This will hide all elements
+    Savio.unhide       #This will bring them all back
+    Savio.stop         #This stops the mouse and keyboard event listeners
+    Savio.listen       #Starts the mouse and keyboard event listeners
+    Savio.listening    #returns true or false if its listening or not
 
-ButtonList      
 
-Constructor Args :      
-{type: string}      
+## **Creation:**
 
-Returnable variables :      
-.options > Hash of Options {id, option}      
-.selected > Array of selected Options      
+    myAwesomeOBJECT = OBJECTNAME.new(params)
 
-Methods:      
+### Params:
 
-.addOption(Option Constructor)      
-Adds an option to the ButtList      
+all SavIO object's parameters are optional, if it is not defined then it will use the deafult.
 
-.toggle(Option)      
-Toggles the state of the Option      
+| Variable | Description | Default |
+|--|--|--|
+| x | The x position | 0
+| y | The y Position | 0
+| z | The z Position | 1
+| size | The scaling value | 10
+| enabled | If the slider slides | true
+| displayName | The label on top | "Default"
+| draggingEnabled | If the object itself can be moved around the window | false
+| dragType | "move" or "duplicate" If draggingEnabled is true, this is what happens when it drags | "move"
+| shown | If the object is shown or not | true
 
-.select(Option)      
-Selects the Option      
+### Example:
 
-.deselect(Option)      
-Deselects the Option (only for checkboxs)      
+`myAwesomeOBJECT = OBJECTNAME.new(x: 100, y: 30, z:2, size: 13, displayName: "Swag")`
 
-------------      
 
-Option      
+### Methods:
+----
+| Method | Description |
+|--|--|
+|.remove() | removes the object from the screen |
+| .add() | adds the object back to the screen |
+|.rebuild() | rebuilds the object |
+|.context() | returns a hash with all the variables that make the object |
 
-Constructor Args :      
-{displayName: string, value: any, x: int, y: int, z: int, size: int, baseColor: color, selectedColor: color, labelColor: color, selected: bool, enabled: bool, id: string}      
+# | Sliders:
+**On top of** all the basic parameters and methods a **Slider** can **also** use these:
 
-Modifiable variables :      
-.value = any      
-.enabled = bool      
-.x = int      
-.y = int      
-.z = int      
-.size = int      
-.displayName = string      
-.baseColor = Ruby2D.Color Object      
-.selectedColor = Ruby2D.Color Object      
-.labelColor = Ruby2D.Color Object      
+### Params:
+| Variable | Description | Default |
+|--|--|--|
+|length | How long the slider is | 100
+|min | The minimum value of the slider | 0
+|max | The maximum value of the slider | 100
+|value| The value of the slider | Random between min and max
+|showValue| If the value should be shown| true
+|labelColor| The color of the labels| '#F5F5F5'
+|sliderColor|Color of the slider line | '#757575'
+|knobColor| Color of the sliders knob | '#5BB36A'
 
-Returnable variables :      
-.value > any      
-.enabled > bool      
-.x > int      
-.y > int      
-.z > int      
-.size > int      
-.selected > bool      
-.displayName > string      
-.id > string      
-.shown > bool      
+### Example:
 
-Methods :      
+    slippyTheSlider = Slider.new(x: 830, y: 40, length: 220, draggingEnabled: true, dragType: "duplicate")
 
-.select()      
-Selects option      
+### Methods:
+----
+| Method | Description |
+|--|--|
+|.moveKnob(**x**) | Moves the knob to that **x** pixel location on the screen and finds and sets equivalent value for the slider |
+| .setValue(**value**) | Sets the sliders value to that **value** and moves the knob there |
 
-.deselect()      
-Deselects option      
+### Basic Usage:
 
-.remove()      
-Hides option      
+    if slippyTheSlider.value == 69
+	    puts "nice"
+    end
 
-.add()      
-Shows option      
+# | Buttons:
+**On top of** all the basic parameters and methods a **Button** can **also** use these:
 
-.build()      
-Initializes button objects      
+### Params:
+| Variable | Description | Default |
+|--|--|--|
+|value | Anything you want to be tied to the button | 0
+|selected | Whether the button is selected or not | false
+|buttonManager | The manager that controls this button | nil
+|enforceManager| When a manager is defined, whether the manager should force this button to follow its rule | true
+|baseColor| The color of the labels| '#F5F5F5'
+|selectedColor|Color of the slider line | '#00B3EC'
+|labelColor| Color of the sliders knob | '#F5F5F5'
 
-.rebuild()      
-rebuilds the button      
+### Example:
+
+    buttonBob = Button.new(
+      x: 830, y: 90,
+      displayName: "Enable Bob?",
+      selectedColor: "purple"
+    )
+
+### Methods:
+----
+| Method | Description |
+|--|--|
+|.select(*enforce*) | Selects the button. if left empty *enforce* will be the buttons **@enforceManager** state. when true the manager will enforce its rule on the button. when false, the button will perform as if it were not controlled. |
+| .deslect(*enforce*) | Deselects the button. *enforce* works the same as .select() *(see above)* |
+|.toggle(*enforce*) | Toggles the buttons Selection state. *enforce* works the same as .select() *(see above)*
+
+
+### Basic Usage:
+
+    if buttonBob.selected == true
+	    puts "Bob is now enabled! Hi Bob!"
+    end
+
+# | ButtonManager:
+Now I'm sure after reading how a **button** works you're saying, "What in the hell is a **manager**?" 
+
+## Let me explain, it's **very simple**.
+A **ButtonManager** is a simple and easy way to **manage a group of multiple buttons**.  More specifically, it **controls** the state of **all the buttons** in its group **depending on** the state of **all the other buttons** in its group.
+
+## This is not considered a standard SavIO Object and does not inherit the typical parameters and methods.
+
+### Creation:
+
+    theSwagMaster = ButtonManager.new(type: "checkbox")
+
+
+### Params:
+| Param |Description  | Default|
+|--|--|--|
+| type | either "radio" or "checkbox" Decides how the manager should control its buttons | "radio"
+
+### Methods:
+----
+| Method | Description |
+|--|--|
+|.addButton(**button**) | Adds the **button** to the group of buttons controlled by the manager. This is done automatically when a buttons **@buttonManager** is set to the manager. If called this way however, it will also automatically set the buttons **@buttonManager** to this manager, so they will always be linked.|
+|.removeButton(**button**, *overwrite*) | Removes the **button** from the group of buttons controlled by the manager. This is done automatically when a buttons **@buttonManager** is changed or removed. *overwrite* is not required and is automatically set to true. When true, this will overwrite the **button**'s **@buttonManager** and set it to nil. When false it will not overwrite the buttons **@buttonManager**. **It is highly recommended not to change this since** it will desynchronize the button and manager and cause issues. It is used internally to prevent recursion when removed the manager from the **button** rather than from the **manager**
+|.toggle(**button**) | Toggles the **button** according to the rule of the manager. This is done automatically by the **button** when **button**.toggle() is called and this manager is used. This is true also for .select() and .deselect().
+| .select(**button**) | Selects the **button** according to the rule of the manager.
+| .deselect(**button**) | Deselects the **button** according to the rule of the manager |
+
+### Variables :
+|Variable|Description  | Type |
+|--|--|--|
+| buttons |an array of all the buttons that are controlled by this manager  |array |
+| selected | an array of all the buttons that are currently selected and in control of this manager | array |
+
+
+### Basic Usage:
+
+    theSwagMaster.selected.each do |button|
+	    puts button.to_s + " Is currently selected!"
+    end
+--
+
+    if theSwagMaster.selected.include?(button)
+	    puts "This button is currently selected!"
+    end
+
+# | InputBox:
+**On top of** all the basic parameters and methods an **InputBox** can **also** use these:
+### Params:
+| Variable | Description | Default |
+|--|--|--|
+|selected | Whether it is currently focused | false
+|value | The current text input in the field | **@displayName**
+|displayName | The value shown in the text field when nothing is in it. AKA the default value. if a value was specified, this will be overwritten with it. | **@value** or "Default"
+|length| The length of the text box | **@size** * 10
+|width| The width of the text box| **@size** * 1.2
+|color| The color of the box when not focused| 'gray'
+|activeColor|The color of the box when focused | 'green'
+
+### Example:
+
+    askMeAnything = InputBox.new(
+      x: 830, y: 180, size: 30,
+      activeColor: 'purple',
+      displayName: "What would you like to ask?"
+    )
+
+### Methods:
+----
+| Method | Description |
+|--|--|
+|.addKey(**key**) | Simulates a key input of given **key** |
+| .updateDisplay() | Adds the line follower marker to the text box |
+|.select() | Focuses the text box and lets you type in it |
+|.deselect() | Loses focus of the text box and finalizes value|
+|.toggle() | Toggles the selection value of the text box |
+
+### Basic Usage:
+
+    if askMeAnything.value == "Favorite Color?"
+	    puts "Purple"
+    end
+
+# | ColorSlider:
+These technically work but I'm not done with them so for now I wont bother with documentation.
