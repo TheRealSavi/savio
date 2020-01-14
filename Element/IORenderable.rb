@@ -1,16 +1,16 @@
 class IORenderable
   attr_accessor :enabled, :allowDrag, :draggingEnabled
-  attr_reader :x, :y, :z, :size, :enabled, :id, :shown, :displayName
+  attr_reader :x, :y, :z, :size, :shown, :displayName
 
   def initialize(args = {})
+    Savio.addElement(self)
     @x = args[:x]             || 0
     @y = args[:y]             || 0
     @z = args[:z]             || 1
     @size = args[:size]       || 10
     @enabled = args[:enabled] || true
 
-    @displayName = args[:displayName] || "default"
-    @id = args[:id] || @displayName.to_s
+    @displayName = args[:displayName] || "Default"
 
     @draggingEnabled = args[:draggingEnabled] || false
     @dragType = args[:dragType] || "move"
