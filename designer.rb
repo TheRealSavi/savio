@@ -2,7 +2,7 @@ require_relative 'savio'
 set width: 1100, height: 800
 
 class Sidebar
-  attr_accessor :elements, :sidebarButtonManager
+  attr_accessor :elements, :buttonManager
 
   def initialize()
     @elements = {}
@@ -35,6 +35,7 @@ class Sidebar
 
     @elements[:templateInput] = InputBox.new(
       x: 830, y: 180, size: 20,
+      activeColor: 'purple',
       draggingEnabled: true, dragType: "duplicate"
     )
 
@@ -57,8 +58,6 @@ end
 $sidebar = Sidebar.new()
 
 update do
-
-
 
   ColorSlider.sliders.each do |slider|
     if slider.animating == true
