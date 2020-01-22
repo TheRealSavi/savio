@@ -56,7 +56,7 @@ class Slider < IORenderable
       pos = @knob.x
       @value = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
       if @showValue == true
-        @label.text = @value
+        @label.text = @value.round(2).to_s
       end
     end
   end
@@ -71,7 +71,7 @@ class Slider < IORenderable
       knobX = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
       @value = value
       if @showValue == true
-        @label.text = @value
+        @label.text = @value.round(2).to_s
       end
       @knob.x = knobX
     end
