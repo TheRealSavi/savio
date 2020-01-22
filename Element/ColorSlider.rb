@@ -101,6 +101,16 @@ class ColorSlider
     return ("#%02x%02x%02x" % [rgb()[0]*255,rgb()[1]*255,rgb()[2]*255])
   end
 
+  def chord(placement)
+    margin = 20
+    height = @size * placement
+    angle = 2 * Math.acos( 1.0 - height / @size.to_f)
+    angle = angle * 180/Math::PI
+    chord = 2 * Math.sqrt(2 * @size * height - height**2)
+    adjust = (@size * 2 - chord) / 2
+    return Struct.new(:margin, :height, :angle, :chord, :adjust).new(margin,height,angle,chord,adjust)
+  end
+
   def build()
     @shown = true
 
@@ -128,23 +138,30 @@ class ColorSlider
       sectors: @sectors
     )
 
+    placement = chord(1.0)
     @mySaturation = Slider.new(
       displayName: "Saturation",
       labelColor: @textColor,
-      x:@x - @size * 0.7, y:@y, z: @z + 1,
+      x:@x - @size + placement.adjust + placement.margin,
+      y:@y - @size + placement.height,
+      z:@z + 1,
       min:0.0,
       max:1.0,
-      length:@size * 1.40,
+      length:(placement.chord - placement.margin * 2),
       size: @size * 0.06,
       showValue: false
     )
+
+    placement = chord(1.3)
     @myValue = Slider.new(
       displayName: "Value",
       labelColor: @textColor,
-      x:@x - @size * 0.7, y:@y * 1.2, z: @z + 1,
+      x:@x - @size + placement.adjust + placement.margin,
+      y:@y - @size + placement.height,
+      z: @z + 1,
       min:0.0,
       max:1.0,
-      length:@size * 1.40,
+      length:(placement.chord - placement.margin * 2),
       size: @size * 0.06,
       showValue: false
     )
