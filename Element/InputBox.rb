@@ -1,4 +1,5 @@
 class InputBox < IORenderable
+attr_accessor :shift
 attr_reader :selected, :value, :length, :height
 
   @@inputBoxs = []
@@ -11,6 +12,8 @@ attr_reader :selected, :value, :length, :height
     super(args)
 
     @selected = args[:selected] || false
+
+    @shift = false
 
     @value = args[:value] || @displayName
     @displayName = @value
@@ -63,6 +66,9 @@ attr_reader :selected, :value, :length, :height
       @value = @value[0...-1]
       updateDisplay()
     elsif key.chars.count == 1
+      if @shift == true
+        key = key.upcase
+      end
       @value += key
       updateDisplay()
     else

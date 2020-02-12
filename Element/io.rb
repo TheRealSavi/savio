@@ -146,12 +146,20 @@ on :mouse do |event|
   end
 end
 
-on :key_down do |event|
+on :key do |event|
   if Savio.listening
 
     InputBox.inputBoxs.each do |inputBox|
       if inputBox.selected
-        inputBox.addKey(event.key)
+        if event.type == :down
+          if event.key == "left shift"
+            inputBox.shift = true
+          else
+            inputBox.addKey(event.key)
+          end
+        elsif event.type == :up && event.key == "left shift"
+          inputBox.shift = false
+        end
       end
     end
 
