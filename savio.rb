@@ -7,7 +7,19 @@ class Savio
       when true, 'true', 1, '1', 't' then true
       when false, 'false', nil, '', 0, '0', 'f' then false
     else
-      raise ArgumentError, "invalid value for Boolean(): \"#{value.inspect}\""
+      return "no"
+    end
+  end
+
+  def self.guessType(value)
+    if value.to_i.to_s == value
+      return "int"
+    elsif value.to_f.to_s == value
+      return "float"
+    elsif value == "true" || value == "false"
+      return "bool"
+    else
+      return "str"
     end
   end
 
