@@ -110,7 +110,8 @@ class Button < IORenderable
       @displayName.to_s,
       x: @x + @size * 2, y: @y - @size * 1.5,
       size: @size * 2,
-      color: @labelColor
+      color: @labelColor,
+      z: @z
     )
     @baseCircle = Circle.new(
       x: @x, y: @y,
@@ -143,6 +144,6 @@ class Button < IORenderable
         @buttonManager.deselect(self)
       end
     end
-    
+
   end
 end
