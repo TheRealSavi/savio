@@ -104,7 +104,7 @@ def export()
     toexport.push(obj)
   end
 
-  out_file = File.new("scene.txt", "w")
+  out_file = File.new($sidebar.elements[:templateInput].value + ".txt", "w")
   out_file.puts(toexport.to_s.chomp)
   out_file.close
 end
