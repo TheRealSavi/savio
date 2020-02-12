@@ -32,6 +32,11 @@ class IORenderable
     @shown = true
   end
 
+  def kill()
+    remove()
+    Savio.removeElement(self)
+  end
+
   def rebuild()
     remove()
     build()
