@@ -1,5 +1,5 @@
 class IORenderable
-  attr_accessor :enabled, :allowDrag, :draggingEnabled
+  attr_accessor :enabled, :allowDrag, :draggingEnabled, :duplicate
   attr_reader :x, :y, :z, :size, :shown, :displayName
 
   def initialize(args = {})
@@ -111,6 +111,7 @@ class IORenderable
         @duplicate.draggingEnabled = true
         @duplicate.enabled = true
         @duplicate.allowDrag = false
+        @duplicate = nil
       end
       @isDragging = false
       @allowDrag = false
