@@ -2,11 +2,12 @@ require_relative 'savio'
 set width: 1100, height: 800
 
 class Sidebar
-  attr_accessor :elements, :buttonManager
+  attr_accessor :elements, :buttonManagers, :buttonManagersUI
 
   def initialize()
     @elements = {}
-    @buttonManager = ButtonManager.new(type: "radio")
+    @buttonManagersUI = []
+    @buttonManagers = []
     @mode = true
 
     @elements[:lineEdge] = Line.new(
@@ -22,15 +23,13 @@ class Sidebar
     @elements[:templateRadio] = Button.new(
       x: 830, y: 90,
       displayName: "Radio ButtonManager",
-      buttonManager: @buttonManager,
-      draggingEnabled: true, dragType: "duplicate"
+      draggingEnabled: false
     )
 
     @elements[:templateCheck] = Button.new(
       x: 830, y: 150,
       displayName: "Checkbox ButtonManager",
-      buttonManager: @buttonManager,
-      draggingEnabled: true, dragType: "duplicate"
+      draggingEnabled: false
     )
 
     @elements[:templateInput] = InputBox.new(
@@ -58,6 +57,41 @@ end
 $sidebar = Sidebar.new()
 
 update do
+  $sidebar.elements[:templateSlide].displayName = $sidebar.elements[:templateInput].value
+  $sidebar.elements[:templateCheck].displayName = $sidebar.elements[:templateInput].value + " CB BM"
+  $sidebar.elements[:templateRadio].displayName = $sidebar.elements[:templateInput].value + " RD BM"
+
+  if $sidebar.elements[:templateCheck].selected
+    $sidebar.elements[:templateCheck].deselect
+    $sidebar.buttonManagers.push(ButtonManager.new(type: 'checkbox'))
+    $sidebar.buttonManagersUI.push(
+      Button.new(
+        x: 830, y: $sidebar.buttonManagersUI.count * 30 + 490,
+        displayName: $sidebar.elements[:templateCheck].displayName + " : " + $sidebar.buttonManagers.count.to_s,
+        buttonManager: $sidebar.buttonManagers[$sidebar.buttonManagers.count-1],
+        draggingEnabled: true, dragType: 'duplicate'
+      )
+    )
+  end
+
+  if $sidebar.elements[:templateRadio].selected
+    $sidebar.elements[:templateRadio].deselect
+    $sidebar.buttonManagers.push(ButtonManager.new(type: 'radio'))
+    $sidebar.buttonManagersUI.push(
+      Button.new(
+        x: 830, y: $sidebar.buttonManagersUI.count * 30 + 490,
+        displayName: $sidebar.elements[:templateRadio].displayName + " : " + $sidebar.buttonManagers.count.to_s,
+        buttonManager: $sidebar.buttonManagers[$sidebar.buttonManagers.count-1],
+        draggingEnabled: true, dragType: 'duplicate'
+      )
+    )
+  end
+
+  $sidebar.buttonManagersUI.each do |button|
+    if button.duplicate
+      button.duplicate.displayName = $sidebar.elements[:templateInput].value
+    end
+  end
 
   ColorSlider.sliders.each do |slider|
     if slider.animating == true
