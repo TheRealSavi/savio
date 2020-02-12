@@ -44,6 +44,14 @@ class Slider < IORenderable
     @knobColor = c
     rebuild()
   end
+  def min=(x)
+    @min = x
+    setValue(@value)
+  end
+  def max=(x)
+    @max = x
+    setValue(@value)
+  end
 
   def moveKnob(x)
     if x.between?(@x, @x+@length)
@@ -74,6 +82,8 @@ class Slider < IORenderable
         @label.text = @value.round(2).to_s
       end
       @knob.x = knobX
+    else
+      setValue(@min)
     end
   end
 
