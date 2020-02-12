@@ -25,25 +25,6 @@ class Button < IORenderable
     @enforceManager = args[:enforceManager] || true
 
     build()
-
-    if @buttonManager == nil
-      if @selected
-        select()
-      else
-        deselect()
-      end
-    else
-      if @buttonManager.class.name != 'ButtonManager'
-        raise ArgumentError, 'Given object ' + @buttonManager.to_s + ' is not a ButtonManager. Must be of type ButtonManager'
-      end
-      @buttonManager.addButton(self)
-
-      if @selected
-        @buttonManager.select(self)
-      else
-        @buttonManager.deselect(self)
-      end
-    end
   end
 
   def baseColor=(c)
@@ -143,5 +124,25 @@ class Button < IORenderable
       color: @selectedColor,
       z: @z+1
     )
+
+    if @buttonManager == nil
+      if @selected
+        select()
+      else
+        deselect()
+      end
+    else
+      if @buttonManager.class.name != 'ButtonManager'
+        raise ArgumentError, 'Given object ' + @buttonManager.to_s + ' is not a ButtonManager. Must be of type ButtonManager'
+      end
+      @buttonManager.addButton(self)
+
+      if @selected
+        @buttonManager.select(self)
+      else
+        @buttonManager.deselect(self)
+      end
+    end
+    
   end
 end
