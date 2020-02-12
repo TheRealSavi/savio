@@ -56,6 +56,12 @@ attr_reader :selected, :value, :length, :height
     rebuild()
   end
 
+  def size=(size)
+    @length = size * 10
+    @height = size * 1.2
+    super(size)
+  end
+
   def addKey(key)
     if key == "space"
       @value += + " "
