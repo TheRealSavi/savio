@@ -56,6 +56,12 @@ attr_reader :selected, :value, :length, :height
     rebuild()
   end
 
+  def value=(value)
+    @value = value
+    @displayName = @value
+    @display.text = @value
+  end
+
   def size=(size)
     @length = size * 10
     @height = size * 1.2
