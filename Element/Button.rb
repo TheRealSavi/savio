@@ -24,7 +24,20 @@ class Button < IORenderable
 
     @enforceManager = args[:enforceManager] || true
 
+    @type = args[:type] || 'toggle'
+    if @type != 'toggle' || @type != 'clicker'
+      @type = 'toggle'
+    end
+
+    @onClick = Proc.new {}
+
     build()
+  end
+
+  def type=(newType)
+    if newType == 'toggle' || newType == 'clicker'
+      @type = newType
+    end
   end
 
   def baseColor=(c)
@@ -38,6 +51,10 @@ class Button < IORenderable
   def labelColor=(c)
     @labelColor = c
     rebuild()
+  end
+
+  def onClick(&proc)
+    @onClick = proc
   end
 
   def buttonManager=(newManager)
@@ -59,11 +76,15 @@ class Button < IORenderable
   end
 
   def select(enforce = @enforceManager)
+    click()
     if enforce == true && @buttonManager != nil
       @buttonManager.select(self)
     else
       @selectCircle.add
       @selected = true
+      if @type == 'clicker'
+        deselect(enforce)
+      end
     end
   end
 
@@ -101,6 +122,10 @@ class Button < IORenderable
     else
       deselect()
     end
+  end
+
+  def click()
+    @onClick.call()
   end
 
   def build()
