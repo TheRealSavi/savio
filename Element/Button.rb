@@ -25,7 +25,7 @@ class Button < IORenderable
     @enforceManager = args[:enforceManager] || true
 
     @type = args[:type] || 'toggle'
-    if @type != 'toggle' || @type != 'clicker'
+    if @type != 'toggle' && @type != 'clicker'
       @type = 'toggle'
     end
 
@@ -83,6 +83,13 @@ class Button < IORenderable
       @selectCircle.add
       @selected = true
       if @type == 'clicker'
+        if @type == 'clicker'
+          fade = Thread.new {
+            @selectCircle.add
+            sleep(0.06)
+            @selectCircle.remove
+          }
+        end
         deselect(enforce)
       end
     end
