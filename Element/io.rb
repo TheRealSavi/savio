@@ -170,8 +170,33 @@ end
 on :mouse do |event|
   if Savio.listening
 
+    if @dragging[:right] == false
+      ColorSlider.colorSliders.each do |slider|
+        if slider.draggingEnabled
+          slider.endDrag()
+        end
+      end
+    end
+
+    if @dragging[:right] == true
+      ColorSlider.colorSliders.each do |slider|
+
+        if slider.draggingEnabled
+          distance = (event.x-slider.x.to_f) ** 2 + (event.y-slider.y.to_f) ** 2
+          distance = Math.sqrt(distance)
+          if distance <= slider.size.to_f
+            slider.allowDrag = true
+          end
+          if slider.allowDrag
+            slider.drag(event.x, event.y)
+          end
+        end
+
+      end
+    end
+
     if @dragging[:left] == true
-      ColorSlider.sliders.each do |slider|
+      ColorSlider.colorSliders.each do |slider|
         if slider.shown && slider.enabled
 
           distance = (event.x-slider.x.to_f) ** 2 + (event.y-slider.y.to_f) ** 2
