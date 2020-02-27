@@ -1,43 +1,76 @@
-class ColorSlider
-  attr_reader :size, :x, :y, :z, :value, :enabled, :shown, :baseColor, :knobColor, :textColor, :sectors, :optionsShown, :animating
+class ColorSlider < IORenderable
+  attr_reader :value, :baseColor, :knobColor, :textColor, :sectors, :optionsShown, :animating
 
-  @@sliders = []
-  def self.sliders
-    @@sliders
+  @@colorSliders = []
+  def self.colorSliders
+    @@colorSliders
   end
 
   def initialize(args = {})
-    @@sliders.push(self)
+    args[:size] = args[:size] || 80
+    super(args)
+    @@colorSliders.push(self)
 
-    @size = args[:size] || 80
-    @x = args[:x] || 100
-    @y = args[:y] || 100
-    @z = args[:z] || 1
     @value = args[:value] || rand(0..360)
-    @enabled = args[:enabled] || true
     @baseColor = args[:baseColor] || 'white'
     @knobColor = args[:baseColor] || 'gray'
     @textColor = args[:textColor] || 'black'
-    @sectors = args[:sectors] || 128
+    @sectors = args[:sectors] || 64
 
     @optionsShown = false
     @steps = 0
+    @animating = false
+
     @radiusStep = 0
     @yStep = 0
-    @animating = false
 
     build()
   end
 
+  def baseColor=(c)
+    @baseColor = c
+    rebuild()
+  end
+  def knobColor=(c)
+    @knob.color = c
+  end
+  def textColor=(c)
+    @textColor = c
+    rebuild()
+  end
+
+  def remove()
+    super()
+    @innerCircle.remove
+    @outerCircle.remove
+    @knob.remove
+    @mySaturation.remove
+    @myValue.remove
+  end
+
+  def add()
+    super()
+    @innerCircle.add
+    @outerCircle.radd
+    @knob.add
+    @mySaturation.add
+    @myValue.add
+  end
+
   def animate()
-    @steps += 1
-    @innerCircle.radius += @radiusStep
-    @innerCircle.y += @yStep
-    if @steps >= 12
-      @steps = 0
-      @radiusStep = 0
-      @yStep = 0
-      @animating = false
+    animatorThread = Thread.new do
+      12.times do
+        sleep(1 / 60)
+        @steps += 1
+        @innerCircle.radius += @radiusStep
+        @innerCircle.y += @yStep
+        if @steps >= 12
+          @steps = 0
+          @radiusStep = 0
+          @yStep = 0
+          @animating = false
+        end
+      end
     end
   end
 
@@ -59,6 +92,7 @@ class ColorSlider
       @radiusStep = calculateStep(0.25 * @size, @innerCircle.radius, 12)
       @yStep = calculateStep(@y - @size + 0.35 * @size, @innerCircle.y, 12)
       @animating = true
+      animate()
     end
   end
 
@@ -74,7 +108,7 @@ class ColorSlider
       @radiusStep = calculateStep(@size * 0.95, @innerCircle.radius, 12)
       @yStep = calculateStep(@y, @innerCircle.y, 12)
       @animating = true
-
+      animate()
     end
   end
 
@@ -167,5 +201,7 @@ class ColorSlider
     )
     @myValue.showValue=false
     @mySaturation.showValue=false
+
+    setValue(@value)
   end
 end
