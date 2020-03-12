@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Allows you to easily ask for user input through sliders, buttons, text boxs, etc}
   spec.homepage      = "http://www.gibbonsiv.com"
   spec.license       = "MIT"
-  s.metadata         = { "source_code_uri" => "https://github.com/TheRealSavi/savio" }
+  spec.metadata         = { "source_code_uri" => "https://github.com/TheRealSavi/savio" }
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
 
