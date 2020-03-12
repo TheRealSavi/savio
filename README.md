@@ -11,9 +11,9 @@ SavIO is an input/output library created to be used with **Ruby2D**. It adds mul
 ## How to install?
 
 Easy! do:
-'gem install savio'
+    gem install savio
 then in your program do:
-'require "savio"'
+    require "savio"
 
 ## How do they work?
 
