@@ -166,7 +166,7 @@ on :key do |event|
   end
 end
 
-#ColorPicker Handler
+# #ColorPicker Handler
 on :mouse do |event|
   if Savio.listening
 

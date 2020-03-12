@@ -1,6 +1,18 @@
+require "savio/version"
 require 'ruby2d'
 
-class Savio
+module Savio
+  class Error < StandardError; end
+
+  require 'savio/IORenderable.rb'
+  require 'savio/InputBox.rb'
+  require 'savio/Slider.rb'
+  require 'savio/Button.rb'
+  require 'savio/ButtonManager.rb'
+  require 'savio/hsv2rgb.rb'
+  require 'savio/ColorSlider.rb'
+  require 'savio/Scene.rb'
+  require 'savio/io.rb'
 
   def self.makeBool(value)
     case value
@@ -23,51 +35,47 @@ class Savio
     end
   end
 
-  def self.listening
-    @@listening
+  def self.listen()
+    @listening = true
   end
 
-  @@elements = []
+  def self.stop()
+    @listening = false
+  end
+
+  def self.listening
+    return @listening
+  end
+
+
+  @elements = []
   def self.elements
-    @@elements
+    @elements
   end
 
   def self.addElement(element)
-    @@elements.push(element)
+    @elements.push(element)
   end
 
   def self.removeElement(element)
-    @@elements.delete(element)
-  end
-  def self.listen
-    @@listening = true
+    @elements.delete(element)
   end
 
-  def self.stop
-    @@listening = false
-  end
 
   def self.hide
-    @@elements.each do |e|
+    @elements.each do |e|
       e.remove
     end
   end
 
   def self.unhide
-    @@elements.each do |e|
+    @elements.each do |e|
       e.add
     end
   end
+
+
 end
 
+include Savio
 Savio.listen
-
-require_relative 'Element/IORenderable.rb'
-require_relative 'Element/InputBox.rb'
-require_relative 'Element/Slider.rb'
-require_relative 'Element/Button.rb'
-require_relative 'Element/ButtonManager.rb'
-require_relative 'Element/hsv2rgb.rb'
-require_relative 'Element/ColorSlider.rb'
-require_relative 'Element/Scene.rb'
-require_relative 'Element/io.rb'
