@@ -1,4 +1,5 @@
 # | *Sav***IO**
+[![Gem Version](https://badge.fury.io/rb/savio.svg)](https://badge.fury.io/rb/savio)
 ## What is it?
 
 SavIO is an input/output library created to be used with **Ruby2D**. It adds multiple ways for the user to interact with your application, including :
