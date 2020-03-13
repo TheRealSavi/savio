@@ -223,6 +223,8 @@ A **ButtonManager** is a simple and easy way to **manage a group of multiple but
 |width| The width of the text box| **@size** * 1.2
 |color| The color of the box when not focused| '#F5F5F5'
 |activeColor|The color of the box when focused | '#5BB36A'
+|activeTextColor| The color of the text when focused | '#F5F5F5'
+|inactiveTextColor| The color of the text when not focused | '#757575'
 
 ### Example:
 
