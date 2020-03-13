@@ -72,6 +72,10 @@ module Savio
       end
     end
 
+    def value=(value)
+      setValue(value)
+    end
+
     def setValue(value)
       if value.between?(@min, @max)
         to_max = @x + @length
