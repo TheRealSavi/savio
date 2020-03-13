@@ -219,6 +219,8 @@ module Savio
           color: @labelColor,
           z: @z+2
         )
+        @nameLabel.x = @baseCircle.x + @baseCircle.width / 2 - @nameLabel.width / 2
+        @nameLabel.y = @baseCircle.y + @baseCircle.height / 2 - @nameLabel.height / 2
       end
 
       if @buttonManager == nil
