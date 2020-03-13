@@ -17,6 +17,11 @@ module Savio
       @min = args[:min]         || 0
       @max = args[:max]         || 100
 
+      @style = args[:style] || 'knob'
+      if @style != 'knob' && @style != 'fill'
+        @style = 'knob'
+      end
+
       @value = args[:value]     || rand(@min..@max)
       @showValue = args[:showValue] || true
 
@@ -27,6 +32,12 @@ module Savio
       build()
     end
 
+    def style=(style)
+      if style == 'knob' || style == 'fill'
+        @style = style
+        rebuild()
+      end
+    end
     def length=(length)
       @length = length.clamp(1, Window.width-@x)
       rebuild()
@@ -56,15 +67,26 @@ module Savio
       setValue(@value)
     end
 
+    def renderKnobTo(x)
+      if x.between?(@x, @x+@length)
+        case @style
+        when 'knob'
+          @knob.x = x
+        when 'fill'
+          @knob.width = x - @x
+        end
+      end
+    end
+
     def moveKnob(x)
       if x.between?(@x, @x+@length)
-        @knob.x = x
+        renderKnobTo(x)
 
         to_max = @max
         to_min = @min
         from_max = @x + @length
         from_min = @x
-        pos = @knob.x
+        pos = x
         @value = (((to_max - to_min) * (pos - from_min)) / (from_max - from_min) + to_min)
         if @showValue == true
           @label.text = @value.round(2).to_s
@@ -88,7 +110,7 @@ module Savio
         if @showValue == true
           @label.text = @value.round(2).to_s
         end
-        @knob.x = knobX
+        renderKnobTo(knobX)
       else
         setValue(@min)
       end
@@ -121,12 +143,22 @@ module Savio
         z: @z
       )
 
-      @knob = Circle.new(
-        x: @x, y: @y,
-        radius: @size * 1.2,
-        color: @knobColor,
-        z: @z+1
-      )
+      case @style
+      when 'knob'
+        @knob = Circle.new(
+          x: @x, y: @y,
+          radius: @size * 1.2,
+          color: @knobColor,
+          z: @z+1
+        )
+      when 'fill'
+        @knob = Rectangle.new(
+          x: @x, y: @y,
+          width: 0 , height: @size,
+          color: @knobColor,
+          z: @z+1
+        )
+      end
 
       @label = Text.new(
         @value.to_s,
