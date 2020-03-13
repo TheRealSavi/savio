@@ -41,7 +41,7 @@ module Savio
 
       if @style == 'box'
         @size *= 2
-        @labelColor = args[:baseColor] || '#01042A'
+        @labelColor = args[:baseColor] || '#757575'
       end
       @length = args[:length] || @size * 10
       @height = args[:height] || @size * 1.2
