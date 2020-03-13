@@ -221,8 +221,8 @@ A **ButtonManager** is a simple and easy way to **manage a group of multiple but
 |displayName | The value shown in the text field when nothing is in it. AKA the default value. if a value was specified, this will be overwritten with it. | **@value** or "Default"
 |length| The length of the text box | **@size** * 10
 |width| The width of the text box| **@size** * 1.2
-|color| The color of the box when not focused| 'gray'
-|activeColor|The color of the box when focused | 'green'
+|color| The color of the box when not focused| '#F5F5F5'
+|activeColor|The color of the box when focused | '#5BB36A'
 
 ### Example:
 
