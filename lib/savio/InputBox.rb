@@ -16,6 +16,8 @@ module Savio
 
       @selected = args[:selected] || false
 
+      @size = args[:size] || 20
+
       @shift = false
 
       @value = args[:value] || @displayName
@@ -94,6 +96,14 @@ module Savio
 
     def updateDisplay()
       @display.text = @value + "|"
+    end
+
+    def selected=(bool)
+      if bool == true
+        select()
+      elsif bool == false
+        deselect()
+      end
     end
 
     def select()
