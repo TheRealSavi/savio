@@ -31,7 +31,16 @@ on :mouse do |event|
       Button.buttons.each do |button|
 
         if button.draggingEnabled
-          if event.x.between?(button.x-button.size,button.x+button.size) && event.y.between?(button.y-button.size,button.y+button.size)
+          check = Struct.new(:x,:y).new(false,false)
+          case button.style
+          when 'box'
+            check.y = event.y.between?(button.y,button.y+button.height)
+            check.x = event.x.between?(button.x,button.x+button.length)
+          when 'badge'
+            check.x = event.x.between?(button.x-button.size,button.x+button.size)
+            check.y = event.y.between?(button.y-button.size,button.y+button.size)
+          end
+          if check.x && check.y
             button.allowDrag = true
           end
           if button.allowDrag
@@ -45,7 +54,16 @@ on :mouse do |event|
       Button.buttons.each do |button|
 
         if button.shown && button.enabled
-          if event.x.between?(button.x-button.size,button.x+button.size) && event.y.between?(button.y-button.size,button.y+button.size)
+          check = Struct.new(:x,:y).new(false,false)
+          case button.style
+          when 'box'
+            check.y = event.y.between?(button.y,button.y+button.height)
+            check.x = event.x.between?(button.x,button.x+button.length)
+          when 'badge'
+            check.x = event.x.between?(button.x-button.size,button.x+button.size)
+            check.y = event.y.between?(button.y-button.size,button.y+button.size)
+          end
+          if check.x && check.y
             if button.buttonManager == nil
               button.toggle
             else
