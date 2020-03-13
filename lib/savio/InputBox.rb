@@ -140,7 +140,11 @@ module Savio
       @shown = true
 
       @display = Text.new(@value,x: @x,y: @y,z: @z + 1, size: @size)
+      @height = @display.height * 1.1
+
       @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @length, color: @color)
+
+      @display.y = @container.y + @container.height / 2 - @display.height / 2
     end
   end
 end
