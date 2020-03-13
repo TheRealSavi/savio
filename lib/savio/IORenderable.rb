@@ -12,7 +12,7 @@ module Savio
       @size = args[:size]       || 10
       @enabled = args[:enabled] || true
 
-      @displayName = args[:displayName] || "Default"
+      @displayName = args[:displayName] || ""
 
       @draggingEnabled = args[:draggingEnabled] || false
       @dragType = args[:dragType] || "move"
