@@ -57,7 +57,7 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 | z | The z Position | 1
 | size | The scaling value | 10
 | enabled | If the object can be interacted with by the user | true
-| displayName | The name of the object | "Default"
+| displayName | The name of the object | ""
 | draggingEnabled | If the object itself can be moved around the window | false
 | dragType | "move" or "duplicate" If draggingEnabled is true, this is what happens when it drags | "move"
 | shown | If the object is shown or not | true
@@ -86,6 +86,7 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 |min | The minimum value of the slider | 0
 |max | The maximum value of the slider | 100
 |value| The value of the slider | Random between min and max
+|style|'knob' or 'fill' changes the style the slider is shown with|'knob' |
 |showValue| If the value label should be shown| true
 |labelColor| The color of the labels| '#F5F5F5'
 |sliderColor| Color of the slider line | '#757575'
