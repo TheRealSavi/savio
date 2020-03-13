@@ -29,6 +29,9 @@ module Savio
       @color = args[:color] || '#F5F5F5'
       @activeColor = args[:activeColor] || '#5BB36A'
 
+      @activeTextColor = args[:activeTextColor] || '#F5F5F5'
+      @inactiveTextColor = args[:inactiveTextColor] || '#757575'
+
       build()
     end
 
@@ -114,6 +117,7 @@ module Savio
       end
 
       @display.text = @value + "|"
+      @display.color = @activeTextColor
       @container.color = @activeColor
     end
 
@@ -125,6 +129,7 @@ module Savio
       end
 
       @display.text = @value
+      @display.color = @inactiveTextColor
       @container.color = @color
     end
 
@@ -139,7 +144,7 @@ module Savio
     def build()
       @shown = true
 
-      @display = Text.new(@value,x: @x,y: @y,z: @z + 1, size: @size)
+      @display = Text.new(@value,x: @x,y: @y,z: @z + 1, size: @size, color: @inactiveTextColor)
       @height = @display.height * 1.1
 
       @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @length, color: @color)
