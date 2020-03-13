@@ -168,6 +168,8 @@ module Savio
         z: @z+1
       )
 
+      @label.y = @y + @sliderLine.width / 2 - @label.height / 2
+
       @nameLabel = Text.new(
         @displayName.to_s,
         x: @x, y: @y - @size * 3 - @size,
