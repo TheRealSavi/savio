@@ -199,6 +199,7 @@ module Savio
           color: @labelColor,
           z: @z
         )
+        @nameLabel.y = @baseCircle.y - @baseCircle.radius / 4 - @nameLabel.height / 2
       when 'box'
         @baseCircle = Rectangle.new(
           x: @x, y: @y,
