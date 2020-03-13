@@ -26,8 +26,8 @@ module Savio
       @length = args[:length] || @size * 10
       @height = args[:height] || @size * 1.2
 
-      @color = args[:color] || 'gray'
-      @activeColor = args[:activeColor] || 'green'
+      @color = args[:color] || '#F5F5F5'
+      @activeColor = args[:activeColor] || '#5BB36A'
 
       build()
     end
