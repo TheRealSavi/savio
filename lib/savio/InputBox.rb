@@ -55,6 +55,14 @@ module Savio
       @activeColor = color
       rebuild()
     end
+    def activeTextcolor=(color)
+      @activeTextcolor = color
+      rebuild()
+    end
+    def inactiveTextColor=(color)
+      @inactiveTextColor = color
+      rebuild()
+    end
     def length=(length)
       @length = length
       rebuild()
