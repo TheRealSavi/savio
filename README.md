@@ -48,7 +48,7 @@ then in your program do:
 
 ### Params:
 
-all SavIO object's parameters are optional, if it is not defined then it will use the deafult.
+all SavIO object's parameters are optional, if it is not defined then it will use the default.
 
 | Variable | Description | Default |
 |--|--|--|
@@ -56,8 +56,8 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 | y | The y Position | 0
 | z | The z Position | 1
 | size | The scaling value | 10
-| enabled | If the slider slides | true
-| displayName | The label on top | "Default"
+| enabled | If the object can be interacted with by the user | true
+| displayName | The name of the object | "Default"
 | draggingEnabled | If the object itself can be moved around the window | false
 | dragType | "move" or "duplicate" If draggingEnabled is true, this is what happens when it drags | "move"
 | shown | If the object is shown or not | true
@@ -86,9 +86,9 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 |min | The minimum value of the slider | 0
 |max | The maximum value of the slider | 100
 |value| The value of the slider | Random between min and max
-|showValue| If the value should be shown| true
+|showValue| If the value label should be shown| true
 |labelColor| The color of the labels| '#F5F5F5'
-|sliderColor|Color of the slider line | '#757575'
+|sliderColor| Color of the slider line | '#757575'
 |knobColor| Color of the sliders knob | '#5BB36A'
 
 ### Example:
@@ -100,7 +100,8 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 | Method | Description |
 |--|--|
 |.moveKnob(**x**) | Moves the knob to that **x** pixel location on the screen and finds and sets equivalent value for the slider |
-| .setValue(**value**) | Sets the sliders value to that **value** and moves the knob there |
+|.setValue(**value**)|Sets the sliders value to that value and moves the knob there (same as .value=)|
+| .value = **value** | Sets the sliders value to that **value** and moves the knob there (same as .setValue)|
 
 ### Basic Usage:
 
@@ -116,33 +117,51 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 |--|--|--|
 |value | Anything you want to be tied to the button | 0
 |selected | Whether the button is selected or not | false
+|type | Whether the button will act normally('toggle') or instantly deselect itself('clicker') | 'toggle'
+|style|'box' or 'badge'. Determines the style the button should be rendered with| 'badge'
+|length|Only used for the 'box' style. Determines the length of the button| @size * 10
+|height|Only used for the 'box' style. Determines the height of the button| @size * 1.2
+|cooldownTime|Time needed to wait in seconds until the button may be clicked again| 0.0
 |buttonManager | The manager that controls this button | nil
 |enforceManager| When a manager is defined, whether the manager should force this button to follow its rule | true
-|baseColor| The color of the labels| '#F5F5F5'
-|selectedColor|Color of the slider line | '#00B3EC'
-|labelColor| Color of the sliders knob | '#F5F5F5'
+|baseColor| Color shown when the button is deselected| '#F5F5F5'
+|selectedColor|Color shown when the button is selected | '#00B3EC'
+|labelColor| Color of the buttons displayName label | '#F5F5F5'
 
 ### Example:
 
-    buttonBob = Button.new(
+    clickyBob = Button.new(
       x: 830, y: 90,
       displayName: "Enable Bob?",
-      selectedColor: "purple"
+      selectedColor: "purple",
+      type : 'clicker'
     )
+-----
+    anotherButton = Button.new(
+      x: 830, y: 150,
+      displayName: "Enable flux capacitors?",
+    )
+
 
 ### Methods:
 ----
 | Method | Description |
 |--|--|
 |.select(*enforce*) | Selects the button. if left empty *enforce* will be the buttons **@enforceManager** state. when true the manager will enforce its rule on the button. when false, the button will perform as if it were not controlled. |
-| .deslect(*enforce*) | Deselects the button. *enforce* works the same as .select() *(see above)* |
+|.deselect(*enforce*) | Deselects the button. *enforce* works the same as .select() *(see above)* |
 |.toggle(*enforce*) | Toggles the buttons Selection state. *enforce* works the same as .select() *(see above)*
-
+|.selected = **bool** | Selects or deselects the button whether given true or false |
+|.timeLastClicked| returns the unix time of the last click
+| .onClick | Takes in a proc that will be ran every time the button gets selected (See example and basic usage)|
 
 ### Basic Usage:
 
-    if buttonBob.selected == true
+    clickyBob.onClick do
 	    puts "Bob is now enabled! Hi Bob!"
+    end
+-----
+    if anotherButton.selected == true do
+      puts "Flux capacitors now enabled"
     end
 
 # | ButtonManager:
@@ -221,6 +240,7 @@ A **ButtonManager** is a simple and easy way to **manage a group of multiple but
 |.select() | Focuses the text box and lets you type in it |
 |.deselect() | Loses focus of the text box and finalizes value|
 |.toggle() | Toggles the selection value of the text box |
+|.selected=(**bool**) | Selects or deselects the text box based on the **bool**  |
 
 ### Basic Usage:
 
