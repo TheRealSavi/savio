@@ -15,9 +15,9 @@ module Savio
       @@colorSliders.push(self)
 
       @value = args[:value] || rand(0..360)
-      @baseColor = args[:baseColor] || 'white'
-      @knobColor = args[:baseColor] || 'gray'
-      @textColor = args[:textColor] || 'black'
+      @baseColor = args[:baseColor] || Savio::Colors::White
+      @knobColor = args[:baseColor] || Savio::Colors::Gray
+      @textColor = args[:textColor] || Savio::Colors::Black
       @sectors = args[:sectors] || 64
 
       @optionsShown = false
