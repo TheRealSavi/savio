@@ -17,9 +17,9 @@ module Savio
 
       @value = args[:value] || 0
 
-      @baseColor = args[:baseColor] || '#F5F5F5'
-      @selectedColor = args[:selectedColor] || '#00B3EC'
-      @labelColor = args[:labelColor] || '#F5F5F5'
+      @baseColor = args[:baseColor] || Savio::Colors::White
+      @selectedColor = args[:selectedColor] || Savio::Colors::Blue
+      @labelColor = args[:labelColor] || Savio::Colors::White
 
       @cooldownTime = args[:cooldownTime] || 0.0
       @timeLastClicked = 0.0
@@ -41,7 +41,7 @@ module Savio
 
       if @style == 'box'
         @size *= 2
-        @labelColor = args[:baseColor] || '#757575'
+        @labelColor = args[:baseColor] || Savio::Colors::Gray
       end
       @length = args[:length] || @size * 10
       @height = args[:height] || @size * 1.2
