@@ -44,7 +44,7 @@ module Savio
         @labelColor = args[:baseColor] || Savio::Colors::Gray
       end
       @length = args[:length] || @size * 10
-      @height = args[:height] || @size * 1.2
+      @height = args[:height] || @size * 2
 
       @onClick = Proc.new {}
 
@@ -53,7 +53,7 @@ module Savio
 
     def size=(size)
       @length = size * 10
-      @height = size * 1.2
+      @height = size * 2
       super(size)
     end
     def type=(newType)
