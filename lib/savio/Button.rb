@@ -20,7 +20,7 @@ module Savio
       @baseColor = args[:baseColor] || Savio::Colors::White
       @selectedColor = args[:selectedColor] || Savio::Colors::Blue
       @labelActiveColor = args[:labelActiveColor] || Savio::Colors::White
-      @labelInactiveColor = args[:labelInactiveColor] Savio::Colors::White
+      @labelInactiveColor = args[:labelInactiveColor] || Savio::Colors::White
 
       @cooldownTime = args[:cooldownTime] || 0.0
       @timeLastClicked = 0.0
