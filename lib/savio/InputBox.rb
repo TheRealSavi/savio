@@ -152,7 +152,7 @@ module Savio
     def build()
       @shown = true
 
-      @display = Text.new(@value,x: @x,y: @y,z: @z + 1, size: @size, color: @inactiveTextColor)
+      @display = Text.new(@value,x: @x + 0.1 * @length,y: @y,z: @z + 1, size: @size, color: @inactiveTextColor)
       @height = @display.height * 1.1
 
       @container = Rectangle.new(x: @x, y: @y, z: @z, height: @height, width: @length, color: @color)
