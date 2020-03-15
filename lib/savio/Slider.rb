@@ -25,9 +25,9 @@ module Savio
       @value = args[:value]     || rand(@min..@max)
       @showValue = args[:showValue] || true
 
-      @labelColor  = args[:labelColor]  || '#F5F5F5'
-      @sliderColor = args[:sliderColor] || '#757575'
-      @knobColor   = args[:knobColor]   || '#5BB36A'
+      @labelColor  = args[:labelColor]  || Savio::Colors::White
+      @sliderColor = args[:sliderColor] || Savio::Colors::Gray
+      @knobColor   = args[:knobColor]   || Savio::Colors::Green
 
       build()
     end
