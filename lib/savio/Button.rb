@@ -19,7 +19,8 @@ module Savio
 
       @baseColor = args[:baseColor] || Savio::Colors::White
       @selectedColor = args[:selectedColor] || Savio::Colors::Blue
-      @labelColor = args[:labelColor] || Savio::Colors::White
+      @labelActiveColor = args[:labelActiveColor] || Savio::Colors::White
+      @labelInactiveColor = args[:labelInactiveColor] Savio::Colors::White
 
       @cooldownTime = args[:cooldownTime] || 0.0
       @timeLastClicked = 0.0
@@ -41,7 +42,8 @@ module Savio
 
       if @style == 'box'
         @size *= 2
-        @labelColor = args[:baseColor] || Savio::Colors::Gray
+        @labelActiveColor = args[:labelActiveColor] || Savio::Colors::White
+        @labelInactiveColor = args[:labelInactiveColor] || Savio::Colors::Gray
       end
       @length = args[:length] || @size * 10
       @height = args[:height] || @size * 2
@@ -123,12 +125,15 @@ module Savio
           @buttonManager.select(self)
         else
           @selectCircle.add
+          @nameLabel.color = @labelActiveColor
           @selected = true
           if @type == 'clicker'
             fade = Thread.new {
               @selectCircle.add
+              @nameLabel.color = @labelActiveColor
               sleep(0.06)
               @selectCircle.remove
+              @nameLabel.color = @labelInactiveColor
             }
             deselect(enforce)
           end
@@ -141,6 +146,7 @@ module Savio
         @buttonManager.deselect(self)
       else
         @selectCircle.remove
+        @nameLabel.color = @labelInactiveColor
         @selected = false
       end
     end
@@ -196,7 +202,7 @@ module Savio
           @displayName.to_s,
           x: @x + @size * 2, y: @y - @size * 1.5,
           size: @size * 2,
-          color: @labelColor,
+          color: @labelInactiveColor,
           z: @z
         )
         @nameLabel.y = @baseCircle.y - @baseCircle.radius / 4 - @nameLabel.height / 2
@@ -217,7 +223,7 @@ module Savio
           @displayName.to_s,
           x: @x, y: @y,
           size: @size,
-          color: @labelColor,
+          color: @labelInactiveColor,
           z: @z+2
         )
         @nameLabel.x = @baseCircle.x + @baseCircle.width / 2 - @nameLabel.width / 2
