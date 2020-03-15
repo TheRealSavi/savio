@@ -12,6 +12,7 @@ module Savio
   require 'savio/hsv2rgb.rb'
   require 'savio/ColorSlider.rb'
   require 'savio/Scene.rb'
+  require 'savio/Colors.rb'
   require 'savio/io.rb'
 
   def self.makeBool(value)
