@@ -26,11 +26,11 @@ module Savio
       @length = args[:length] || @size * 10
       @height = args[:height] || @size * 1.2
 
-      @color = args[:color] || '#F5F5F5'
-      @activeColor = args[:activeColor] || '#5BB36A'
+      @color = args[:color] || Savio::Colors::White
+      @activeColor = args[:activeColor] || Savio::Colors::Green
 
-      @activeTextColor = args[:activeTextColor] || '#F5F5F5'
-      @inactiveTextColor = args[:inactiveTextColor] || '#757575'
+      @activeTextColor = args[:activeTextColor] || Savio::Colors::White
+      @inactiveTextColor = args[:inactiveTextColor] || Savio::Colors::Gray
 
       build()
     end
