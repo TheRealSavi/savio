@@ -103,11 +103,18 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 |.moveKnob(**x**) | Moves the knob to that **x** pixel location on the screen and finds and sets equivalent value for the slider |
 |.setValue(**value**)|Sets the sliders value to that value and moves the knob there (same as .value=)|
 | .value = **value** | Sets the sliders value to that **value** and moves the knob there (same as .setValue)|
+|.onChange| Calls the given proc any time the sliders **value** is updated(see basic usage)|
 
 ### Basic Usage:
 
     if slippyTheSlider.value == 69
 	    puts "nice"
+    end
+
+-----
+
+    slippyTheSlider.onChange do
+      puts "Value Changed! new value is: " + slippyTheSlider.value.to_s
     end
 
 # | Buttons:
@@ -116,7 +123,6 @@ all SavIO object's parameters are optional, if it is not defined then it will us
 ### Params:
 | Variable | Description | Default |
 |--|--|--|
-|value | Anything you want to be tied to the button | 0
 |selected | Whether the button is selected or not | false
 |type | Whether the button will act normally('toggle') or instantly deselect itself('clicker') | 'toggle'
 |style|'box' or 'badge'. Determines the style the button should be rendered with| 'badge'
