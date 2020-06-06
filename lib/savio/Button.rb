@@ -15,8 +15,6 @@ module Savio
 
       @@buttons.push(self)
 
-      @value = args[:value] || 0
-
       @baseColor = args[:baseColor] || Savio::Colors::White
       @selectedColor = args[:selectedColor] || Savio::Colors::Blue
       @labelActiveColor = args[:labelActiveColor] || Savio::Colors::White
@@ -45,6 +43,7 @@ module Savio
         @labelActiveColor = args[:labelActiveColor] || Savio::Colors::White
         @labelInactiveColor = args[:labelInactiveColor] || Savio::Colors::Gray
       end
+
       @length = args[:length] || @size * 10
       @height = args[:height] || @size * 2
 

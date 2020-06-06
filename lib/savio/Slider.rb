@@ -29,7 +29,13 @@ module Savio
       @sliderColor = args[:sliderColor] || Savio::Colors::Gray
       @knobColor   = args[:knobColor]   || Savio::Colors::Green
 
+      @onChange = Proc.new {}
+
       build()
+    end
+
+    def onChange(&proc)
+      @onChange = proc
     end
 
     def style=(style)
@@ -91,6 +97,7 @@ module Savio
         if @showValue == true
           @label.text = @value.round(2).to_s
         end
+        @onChange.call
       end
     end
 
