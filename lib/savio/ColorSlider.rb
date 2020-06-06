@@ -211,11 +211,11 @@ module Savio
       @saturationSlider.showValue=false
 
       @valueSlider.onChange do
-        @color = HsvColor.new(@hue % 360, @saturationSlider.value, @valueSlider.value)
+        setValue(@hue)
       end
 
       @saturationSlider.onChange do
-        @color = HsvColor.new(@hue % 360, @saturationSlider.value, @valueSlider.value)
+        setValue(@hue)
       end
 
       setValue(@hue)
