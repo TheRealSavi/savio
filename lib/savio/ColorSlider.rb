@@ -15,6 +15,7 @@ module Savio
       @@colorSliders.push(self)
 
       @color = args[:color] || HsvColor.new(rand(0..360), rand(0.0..1.0),rand(0.0..1.0))
+      @hue = @color[0]
 
       @baseColor = args[:baseColor] || Savio::Colors::White
       @knobColor = args[:baseColor] || Savio::Colors::Gray
@@ -121,6 +122,7 @@ module Savio
       @knob.y = (@size).to_f * Math.sin((angle.to_f % 360.0) * Math::PI/180.0) + @y.to_f
 
       @color = HsvColor.new(angle % 360, @saturationSlider.value, @valueSlider.value)
+      @hue = @color[0]
 
       rgb = RgbColor.newFromHSV(@color)
       @innerCircle.color.r = rgb[0]
@@ -209,14 +211,14 @@ module Savio
       @saturationSlider.showValue=false
 
       @valueSlider.onChange do
-        @color = HsvColor.new(angle % 360, @saturationSlider.value, @valueSlider.value)
+        @color = HsvColor.new(@hue % 360, @saturationSlider.value, @valueSlider.value)
       end
 
       @saturationSlider.onChange do
-        @color = HsvColor.new(angle % 360, @saturationSlider.value, @valueSlider.value)
+        @color = HsvColor.new(@hue % 360, @saturationSlider.value, @valueSlider.value)
       end
 
-      setValue(@color[0])
+      setValue(@hue)
     end
   end
 end
