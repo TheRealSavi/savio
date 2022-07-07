@@ -1,7 +1,7 @@
 module Savio
   module IORenderable
-    attr_accessor :enabled, :allowDrag, :draggingEnabled, :duplicate
-    attr_reader :x, :y, :z, :size, :shown, :displayName
+    attr_accessor :enabled, :shown, :allowDrag, :draggingEnabled, :duplicate
+    attr_reader :x, :y, :z, :size, :displayName
 
     def initialize(args = {})
       Savio.addElement(self)
@@ -9,8 +9,11 @@ module Savio
       @x = args[:x]             || 0
       @y = args[:y]             || 0
       @z = args[:z]             || 1
+
       @size = args[:size]       || 10
+
       @enabled = args[:enabled] || true
+      @shown = args[:shown]     || true
 
       @displayName = args[:displayName] || ""
 
@@ -18,19 +21,14 @@ module Savio
       @dragType = args[:dragType] || "move"
       @isDragging = false
       @allowDrag = false
+
     end
 
     def remove()
-      if @shown == false
-        return
-      end
       @shown = false
     end
 
     def add()
-      if @shown == true
-        return
-      end
       @shown = true
     end
 
@@ -63,6 +61,7 @@ module Savio
       @displayName = displayName
       rebuild()
     end
+
     def dragType=(type)
       if type == "move" || type == "duplicate"
         @dragType = type
