@@ -111,6 +111,7 @@ module Savio
           @@inputBoxs[i].select()
         end
         if @selected
+          deselect()
           @@tabIndex = 0
         end
       end
