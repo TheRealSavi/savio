@@ -104,7 +104,7 @@ module Savio
         @@tabIndex = 0
       end
 
-      for i in @@tabIndex..@@inputBoxs.count do
+      for i in @@tabIndex..@@inputBoxs.count-1 do
         if @@inputBoxs[i].enabled && @@inputBoxs[i].shown
           @@tabIndex = i
           deselect()
